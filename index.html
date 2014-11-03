@@ -1,1 +1,451 @@
-Hello World
+<!doctype html>
+<html>
+	<head>
+
+<!-- ########################################################## -->
+<!-- TODO ##################################################### -->
+<!--
+	Added feeds
+	Added Icons Credits http://iconmonstr.com
+	Background changes per hour
+	Replace local websites with .localdomain names
+	Change image paths before uploading
+-->
+<!-- ########################################################## -->
+
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+		<link href="./images/favicon.svg" rel="icon" type="image/x-icon" />
+
+		<title>HomePage.v2</title>
+
+<!-- ########################################################## -->
+<!-- Begin CSS################################################# -->
+<!-- ########################################################## -->
+
+		<style>
+			@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
+			@import url(http://fonts.googleapis.com/css?family=Dancing+Script:700);
+
+			body {
+				/*background: #F1F1F1;*/
+				/*background: #ffffff url("/static/images/background.jpg") no-repeat;
+				background-size: 100% 100%;
+				background-attachment: fixed;*/
+				margin: 0 0 0 0;
+				padding: 5px;
+				/*width: auto;*/
+				text-align: center;
+
+				font-family: Source Sans Pro, Terminus,  sans;
+				color: #CCC;
+				font-size: 10px;
+				opacity: 0.8;
+				filter: alpha(opacity=80)
+			}
+			a {
+				color: #666666;
+			}
+			ul li {
+				display: block;
+			}
+			h1 {
+				font-size: 3em;
+			}
+			h2 {
+				font-size: 2em;
+			}
+			nav {
+				/*padding: 0.5em;
+				margin: 0.5em;*/
+				opacity: 0.30;
+				filter: alpha(opacity=30); /* <IE8 compatibility*/
+			}
+				.navicon {
+					display: inline-block;
+					font-size: 2em;
+					text-decoration: none;
+					/*min-width: 1.5em;
+					min-height:1.5em;*/
+					width:24px;
+					height:24px;
+					background: #FFFFFF;
+					border: 0.25em solid gray;
+					border-radius: 1.5em;
+					/*padding: 0.25em 0.5em 0.0em 0.5em;*/
+					padding: 0.15em;
+					margin: 0.25em;
+					margin-bottom: 0;
+					cursor:pointer;
+					overflow-x:hidden;
+				}
+					.navicon:hover {
+						border: 0.25em solid black;
+					}
+				.navElements {
+				}
+					.navElements ul {
+						padding-left:0;
+						display: inline-block;
+						margin-top: 0.1em;
+						margin-bottom: 0.5em;
+						/*background: #FFFFFF;*/
+						opacity: 0.60;
+						filter: alpha(opacity=60); /* <IE8 compatibility*/
+					}
+					.navElements ul li {
+						display: inline-block;
+						background: #FFF;
+						min-width: 8em;
+						border: 1px solid white;
+						border-radius: 1em;
+						padding: 0.1em 0.5em 0.3em 0.5em;
+						margin: 0.2em;
+					}
+					.navElements ul li:hover {
+						color: #000;
+						box-shadow: 0px 0px 4px #000;
+					}
+					.navElements a{
+						font-size:2em;
+						text-decoration: none;
+						min-width:4em;
+					}
+					.navElements .head {
+						color: #000;
+						text-decoration: underline;
+					}
+
+		section {
+				/*float: left;*/
+				display: block;
+				/*min-height: 300px; /* keeps footter at bottom in case single section */
+				margin: 1em;
+				text-align: center;
+			}
+				.feeds {
+					background: #FFFFFF;
+					margin-bottom: 1em;
+					margin-left: 0.4%;
+					margin-right: 0.4%;
+					border: 1px solid gray;
+					opacity: 0.6;
+					filter: alpha(opacity=60);
+					font-size: 1.15em;
+					float: left;
+					width:32%;
+					height: 320px;
+					overflow-x: scroll;
+				}
+					.feeds ul {
+						padding: 0;
+					}
+					.rss-title {
+						/*display: none;*/
+						font-size: 1.1em;
+						font-weight: 700;
+					}
+					.rss-item {
+						display:  block !important;
+						margin-left: 0.5em;
+						margin-right: 0.5em;
+						font-size: 1.1em !important;
+					}
+
+			footer {
+				clear: both;
+				min-height: 2em;
+				padding: 1em;
+				bottom: 0px;
+				text-align: center;
+				font-size: 1.5em;
+				font-weight: 700;
+			}
+				footer p {
+					margin: 0;
+				}
+				footer a {
+					margin-left: 0.2em;
+					margin-right: 0.2em;
+				}
+					.contacticon {
+						height: 24px;
+						width: 24px;
+						opacity: 0.30;
+						filter: alpha(opacity=30); /* <IE8 compatibility*/
+					}
+
+			/* -- ########################################################## -- */
+
+			#loginPortal {
+				position: absolute;
+				top:0;
+				left:0;
+				margin-top: 1em;
+				margin-left: 1em;
+				font-size: 1.5em;
+			}
+			#clock {
+				/*font-family: Dancing Script, sans;*/
+				font-size: 10em;
+				/*float: right;*/
+			}
+			#search input[type="text"] {
+				height: 2em;
+				margin-right: 2em;
+				margin-left: 2em;
+				margin-top: -0.5em;
+				margin-bottom: 2em;
+				padding-left: 1em;
+				text-align: left;
+				width: 80%;
+				opacity: 0.30;
+				filter: alpha(opacity=30); /* <IE8 compatibility*/
+			}
+				#search input:focus {
+					opacity: 0.60;
+					filter: alpha(opacity=60); /* <IE8 compatibility*/
+				}
+
+			#feeds-wrapper {
+				margin-left: 5%;
+				margin-right: 5%;
+				width:auto;
+			}
+
+			/*-- ########################################################## -- */
+
+			@media screen and ( max-width: 720px ), handheld and ( orientation : portrait ) {
+				header, section, footer {
+					position: static;
+					float:none;
+					width: auto;
+				}
+
+				/*.navElements ul li {
+					display: block;
+				}*/
+
+				.feeds {
+					float: none;
+					width: auto;
+					height: auto;
+					overflow: auto;
+				}
+			}
+		</style>
+
+<!-- ########################################################## -->
+<!-- Begin JS################################################## -->
+<!-- ########################################################## -->
+
+		<script>
+			//Feed URLs/params
+			weather_feed_num = 3;
+			weather_feed="http://open.live.bbc.co.uk/weather/feeds/en/1275004/3dayforecast.rss";
+
+			yts_feed_num=10;
+			yts_feed="http://yts.re/rss/0/All/All/0";
+
+			cnet_feed_num=10;
+			cnet_feed="http://www.cnet.com/rss/all/"
+
+			//-- ########################################################## -->
+
+			//Clock
+			function updateClock() {
+			var d=new Date();
+			document.getElementById('clock').innerHTML=checkTime(d.getHours()).toString()+":"+checkTime(d.getMinutes()).toString()+":"+checkTime(d.getSeconds()).toString();
+			var t=setTimeout(function(){updateClock()}, 500);
+			}
+
+			function checkTime(i) {
+				if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
+				return i;
+			}
+
+			//-- ########################################################## -->
+
+			//Update background color according to time - http://www.december.com/html/spec/color0.html
+			function updateBackground() {
+				//colors from dark to light
+				var ccodes=["#696969", "#787878", "#828282", "#919191", "#A1A1A1", "#ABABAB",
+							"#B8B8B8","#C2C2C2", "#CFCFCF", "#D9D9D9", "#E5E5E5", "#EDEDED"];
+
+				var d= new Date();
+				h=d.getHours();
+				t=h % 12;
+				//alert(h+":"+t);
+				if (h >= 12) {
+					document.body.style.backgroundColor=ccodes[12-1-t];
+					document.body.style.color=ccodes[t];
+				}
+				else {
+					document.body.style.backgroundColor=ccodes[t];
+					document.body.style.color=ccodes[12-1-t];
+				}
+				//reload
+				var t=setTimeout(function(){updateBackground()}, 60000);
+			}
+
+			//-- ########################################################## -->
+
+			function toggle( tabGroup, tabId ) { //script to toggle content displayed in section_tabs, default=0 follows #anchors
+				//collect all ids
+				var sel = document.getElementsByClassName(tabGroup);
+				var anchor = document.location.hash.substring(1);
+				//get id to display if not defined, try anchor or default=0
+				if ( tabId ) { ids = tabId; }
+				else if ( anchor != "" ) {
+					//ids = anchor;
+					for (var i=0; i< sel.length; i++)
+						if (anchor == sel[i].id) { ids=anchor; }
+						else { ids = sel[0].id; }
+					}
+				else { ids = sel[0].id; }
+
+				//hide all not selected
+				for (var i=0; i<sel.length; i++) {
+					if (sel[i].id == ids) { sel[i].style.display = 'block'; }
+					else { sel[i].style.display = 'none'; }
+					}
+				//toggle selected
+				//if (document.getElementById(ids).style.display != 'block') {
+				//	document.getElementById(ids).style.display = 'block';}
+				//else {
+				//	document.getElementById(ids).style.display = 'none'; }
+				//alert(ids)
+			}
+		</script>
+	</head>
+
+<!-- ########################################################## -->
+<!-- Begin Body################################################ -->
+<!-- ########################################################## -->
+
+	<body>
+		<!-- ########################################################## -->
+
+		<header>
+			<div id="loginPortal">
+				<a href="http://10.254.254.13/0/up/">Internet</a>
+			</div>
+			<div id="clock"></div>
+			<script>updateClock();updateBackground();</script>
+
+			<nav>
+				<img class="navicon" src="./images/icons/iconmonstr-network-5-icon.svg" alt="favourites" title="Favourites" onmouseover="toggle('navElements', 'fav');"/>
+				<img class="navicon" src="./images/icons/iconmonstr-sitemap-5-icon.svg" title="Local" alt="local" onmouseover="toggle('navElements', 'raspi');"/>
+				<img class="navicon" src="./images/icons/iconmonstr-network-2-icon.svg" title="Botnet" alt="botnet" onmouseover="toggle('navElements', 'botnet');"/>
+				<img class="navicon" src="./images/icons/iconmonstr-currency-indian-rupee-2-icon.svg" title="Commerce" alt="commerce" onmouseover="toggle('navElements', 'commerce');"/>
+				<img class="navicon" src="./images/icons/iconmonstr-book-9-icon.svg" title="Info" alt="info" onmouseover="toggle('navElements', 'info');"/>
+				<img class="navicon" src="./images/icons/iconmonstr-download-13-icon.svg" title="Torrent" alt="torrent" onmouseover="toggle('navElements', 'torr');"/>
+				<!--a href="#" onmouseover="toggle('navElements', 'botnet');">botnet</a-->
+				<!--img class="navicon" src="" alt="Botnet" style="cursor: pointer;"/-->
+			</nav>
+
+			<div class="navElements" id="fav">
+				<ul>
+					<li><a href="https://www.reddit.com">Reddit</a></li>
+					<li><a href="https://www.youtube.com">Youtube</a></li>
+					<li><a href="https://boards.4chan.org/g/">/g/</a></li>
+				</ul>
+			</div>
+
+			<div class="navElements" id="raspi">
+				<ul style="margin-bottom:0px;">
+					<li class="head"> <a href="http://rpi/">PiHome</a> </li>
+					<li> <a href="http://rpi/slate/">/slate</a> </li>
+					<li> <a href="http://rpi/files/">/files</a> </li>
+					<li> <a href="http://rpi/profile/">/profile</a> </li>
+				</ul>
+
+				<ul>
+					<li class="head"> <a href="https://desktop/">Desktop</a> </li>
+					<li> <a href="http://desktop/files/">/files</a> </li>
+					<li> <a href="https://desktop/torrent/">/torrents</a> </li>
+				</ul>
+			</div>
+
+			<div class="navElements" id="botnet">
+				<ul>
+					<li><a href="https://gmail.com/">Gmail</a></li>
+					<li><a href="https://keep.google.com/">Keep</a></li>
+					<li><a href="https://drive.google.com/">Drive</a></li>
+					<li><a href="https://facebook.com/">Facebook</a></li>
+					<li><a href="https://linkedin.com/">LinkedIn</a></li>
+					<li><a href="https://twitter.com/">Twitter</a></li>
+					<li><a href="https://github.com/">Github</a></li>
+				</ul>
+			</div>
+
+
+			<div class="navElements" id="commerce">
+				<ul>
+					<li><a href="http://www.ebay.in/">EBay</a></li>
+					<li><a href="http://www.amazon.in/">Amazon</a></li>
+					<li><a href="http://www.flipkart.com/">Flipkart</a></li>
+					<li><a href="http://www.myntra.com/">Myntra</a></li>
+				</ul>
+			</div>
+
+			<div class="navElements" id="info">
+				<ul>
+					<li><a href="https://wikipedia.com/">Wikipedia</a></li>
+					<li><a href="https://wiki.archlinux.org/">ArchWiki</a></li>
+					<li><a href="https://news.ycombinator.com/newest">HackerNews</a></li>
+				</ul>
+			</div>
+
+			<div class="navElements" id="torr">
+				<ul>
+					<li><a href="https://thepiratebay.se/">TPB</a></li>
+					<li><a href="http://torbox.net">Torbox</a></li>
+					<li><a href="http://publichd.se/">PublicHD</a></li>
+					<li><a href="http://nyaa.se">Nyaa</a></li>
+				</ul>
+			</div>
+
+			<script>toggle('navElements');</script>
+
+<!-- ########################################################## -->
+
+		</header>
+
+		<!--aside></aside-->
+
+		<section>
+			<form method="get" action="https://encrypted.google.com/search" id="search">
+				<input type="text" autofocus name="q" placeholder="Google" maxlength="255"/>
+			</form>
+			<div id="feeds-wrapper">
+				<div class="feeds" id="weather">
+					<script type="text/javascript">
+						document.write('<script id="weather-feed" type="text/javascript" src="http://feed2js.org//feed2js.php?src='+ weather_feed + '&chan=y&num=' + weather_feed_num + '&utf=y"  "></scr' + 'ipt>');
+					</script>
+				</div>
+
+				<div class="feeds" id="cnet">
+					<script type="text/javascript">
+						document.write('<script id="yts-feed" type="text/javascript" src="http://feed2js.org//feed2js.php?src='+ cnet_feed + '&chan=y&num=' + cnet_feed_num + '&utf=y"  "></scr' + 'ipt>');
+					</script>
+				</div>
+				<div class="feeds" id="yts">
+					<script type="text/javascript">
+						document.write('<script id="yts-feed" type="text/javascript" src="http://feed2js.org//feed2js.php?src='+ yts_feed + '&chan=y&num=' + yts_feed_num + '&utf=y"  "></scr' + 'ipt>');
+					</script>
+				</div>
+			</div>
+		</section>
+
+<!-- ########################################################## -->
+
+		<footer>
+			<p>&copy; Arpan Pal 2014</p>
+			<a href="https://github.com/arpanpal010" title="GitHub: arpanpal010"><img class="contacticon" src="./images/icons/iconmonstr-github-5-icon.svg" alt="github"></a>
+			<a href="https://in.linkedin.com/in/arpanpal010" title="LinkedIn: arpanpal010"><img class="contacticon" src="./images/icons/iconmonstr-linkedin-5-icon.svg" alt="linkedin"></a>
+			<a href="https://twitter.com/arpanpal010" title="Twitter: arpanpal010"><img class="contacticon" src="./images/icons/iconmonstr-twitter-5-icon.svg" alt="twitter"></a>
+		</footer>
+	</body>
+</html>
