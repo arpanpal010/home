@@ -10,6 +10,7 @@
 	Background changes per hour
 	Replace local websites with .localdomain names
 	Change image paths before uploading
+	Added a bunch of search options
 -->
 <!-- ########################################################## -->
 
@@ -18,7 +19,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 		<link href="./images/favicon.svg" rel="icon" type="image/x-icon" />
 
-		<title>HomePage.v2</title>
+		<title>HomePage.v2.1</title>
 
 <!-- ########################################################## -->
 <!-- Begin CSS################################################# -->
@@ -26,7 +27,6 @@
 
 		<style>
 			@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
-			@import url(http://fonts.googleapis.com/css?family=Dancing+Script:700);
 
 			body {
 				/*background: #F1F1F1;*/
@@ -97,9 +97,9 @@
 					.navElements ul li {
 						display: inline-block;
 						background: #FFF;
-						min-width: 8em;
+						min-width: 8.5em;
 						border: 1px solid white;
-						border-radius: 1em;
+						border-radius: 1.5em;
 						padding: 0.1em 0.5em 0.3em 0.5em;
 						margin: 0.2em;
 					}
@@ -175,6 +175,10 @@
 						opacity: 0.30;
 						filter: alpha(opacity=30); /* <IE8 compatibility*/
 					}
+						.contacticon:hover {
+							opacity: 0.60;
+							filter: alpha(opacity=60); /* <IE8 compatibility*/
+						}
 
 			/* -- ########################################################## -- */
 
@@ -192,16 +196,17 @@
 				/*float: right;*/
 			}
 			#search input[type="text"] {
+				font-size: 1.6em;
 				height: 2em;
 				margin-right: 2em;
 				margin-left: 2em;
-				margin-top: -0.5em;
+				margin-top: 0.5em;
 				margin-bottom: 2em;
 				padding-left: 1em;
 				text-align: left;
 				width: 80%;
-				opacity: 0.30;
-				filter: alpha(opacity=30); /* <IE8 compatibility*/
+				opacity: 0.60;
+				filter: alpha(opacity=60); /* <IE8 compatibility*/
 			}
 				#search input:focus {
 					opacity: 0.60;
@@ -249,24 +254,30 @@
 			yts_feed="http://yts.re/rss/0/All/All/0";
 
 			cnet_feed_num=10;
-			cnet_feed="http://www.cnet.com/rss/all/"
+			cnet_feed="http://www.cnet.com/rss/all/";
+		</script>
 
-			//-- ########################################################## -->
+		<!-- ########################################################## -->
 
+		<script>
 			//Clock
 			function updateClock() {
-			var d=new Date();
-			document.getElementById('clock').innerHTML=checkTime(d.getHours()).toString()+":"+checkTime(d.getMinutes()).toString()+":"+checkTime(d.getSeconds()).toString();
-			var t=setTimeout(function(){updateClock()}, 500);
+				var d=new Date();
+				document.getElementById('clock').innerHTML=checkTime(d.getHours()).toString()+":"+checkTime(d.getMinutes()).toString()+":"+checkTime(d.getSeconds()).toString();
+				var t=setTimeout(function(){updateClock()}, 500);
 			}
+		</script>
 
+		<script>
 			function checkTime(i) {
-				if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
+				if (i<10) {i = "0" + i;}  // add zero in front of numbers < 10
 				return i;
 			}
+		</script>
 
-			//-- ########################################################## -->
+		<!-- ########################################################## -->
 
+		<script>
 			//Update background color according to time - http://www.december.com/html/spec/color0.html
 			function updateBackground() {
 				//colors from dark to light
@@ -288,21 +299,24 @@
 				//reload
 				var t=setTimeout(function(){updateBackground()}, 60000);
 			}
+		</script>
 
-			//-- ########################################################## -->
+		<!-- ########################################################## -->
 
+		<script>
 			function toggle( tabGroup, tabId ) { //script to toggle content displayed in section_tabs, default=0 follows #anchors
 				//collect all ids
 				var sel = document.getElementsByClassName(tabGroup);
 				var anchor = document.location.hash.substring(1);
 				//get id to display if not defined, try anchor or default=0
 				if ( tabId ) { ids = tabId; }
-				else if ( anchor != "" ) {
+				else if ( anchor !== "" ) {
 					//ids = anchor;
-					for (var i=0; i< sel.length; i++)
+					for (var i=0; i< sel.length; i++) {
 						if (anchor == sel[i].id) { ids=anchor; }
 						else { ids = sel[0].id; }
 					}
+				}
 				else { ids = sel[0].id; }
 
 				//hide all not selected
@@ -318,6 +332,101 @@
 				//alert(ids)
 			}
 		</script>
+
+		<!-- ########################################################## -->
+
+		<script>
+			function fn_search() {
+				var leader= ';';
+				var searchForm=document.getElementById('searchForm');
+				var actionList=[
+						{	//google (default)
+							match_string: "g",
+							name: "q",
+							url:"https://encrypted.google.com/search",
+							extra_inputs: []
+						},
+						{	// youtube
+							match_string: "yt",
+							name: "search_query",
+							url:"https://www.youtube.com/results",
+							extra_inputs: []
+						},
+						{	//reddit
+							match_string: "redd",
+							name: "q",
+							url:"https://www.reddit.com/search",
+							extra_inputs: []
+						},
+						{	//wikipedia
+							match_string:"wiki",
+							name: "search",
+							url:"https://en.wikipedia.org/wiki/search-redirect.php",
+							extra_inputs:[
+								{type: "hidden", attributes: [ ['name', 'title'], ['value', "Special:Search" ] ]},
+								{type: "hidden", attributes: [ ['name', 'fulltext'], ['value', "Search" ] ]},
+								{type: "hidden", attributes: [ ['name', 'profile'], ['value', "default" ] ]}
+							]
+						},
+						{	//flipkart
+							match_string:"flip",
+							name: "q",
+							url:"http://www.flipkart.com/search",
+							extra_inputs:[
+								{type: "hidden", attributes: [ ['name', 'as'], ['value', "off" ] ]},
+								{type: "hidden", attributes: [ ['name', 'as-show'], ['value', "off" ] ]}
+							]
+						},
+						{	//library genesis
+							match_string: "libg",
+							name: "req",
+							url: "http://gen.lib.rus.ec/search.php",
+							extra_inputs: [
+								{type: "hidden", attributes: [ ['name', 'open'], ['value', "0" ] ]},
+								{type: "hidden", attributes: [ ['name', 'view'], ['value', "detailed" ] ]},
+								{type: "hidden", attributes: [ ['name', 'column'], ['value', "def" ] ]}
+							]
+						},
+						{	//torbox
+							match_string: "tbox",
+							name: "q",
+							url: "http://torbox.net/index.php",
+							extra_inputs: [
+								{type: "hidden", attributes: [ ['name', 'c'], ['value', "e" ] ]}
+							]
+						}
+					];
+				for (var action in actionList) {
+					var match=searchForm.searchText.value.search(leader + actionList[action].match_string);
+					if (match != -1) {
+
+						searchForm.searchText.name=actionList[action].name; //set input name
+						searchForm.action=actionList[action].url; //set action url
+
+						//create and append extra input fields
+						if (actionList[action].extra_inputs.length != 0) {
+							for (var obj in actionList[action].extra_inputs) {
+								var child_obj=document.createElement('input');
+								child_obj.type=actionList[action].extra_inputs[obj].type;
+								child_obj.style.display="none";
+								//set attributes
+								for (attr in actionList[action].extra_inputs[obj].attributes) {
+									var attr_name=actionList[action].extra_inputs[obj].attributes[attr][0];
+									child_obj[attr_name]=actionList[action].extra_inputs[obj].attributes[attr][1];
+								}
+								searchForm.appendChild(child_obj);
+							}
+						//alert("searching "+actionList[action].match_string);
+						}
+						//hoping atleast one succeeds //remove matched substring
+						searchForm.searchText.value=searchForm.searchText.value.replace(leader + actionList[action].match_string+" ", "");
+						searchForm.searchText.value=searchForm.searchText.value.replace(leader + actionList[action].match_string, "");
+						break;
+					}
+
+									}
+			}
+		</script>
 	</head>
 
 <!-- ########################################################## -->
@@ -329,7 +438,7 @@
 
 		<header>
 			<div id="loginPortal">
-				<a href="http://netlogin/0/up/">Internet</a>
+				<a href="http://10.254.254.13/0/up/">Internet</a>
 			</div>
 			<div id="clock"></div>
 			<script>updateClock();updateBackground();</script>
@@ -350,6 +459,7 @@
 					<li><a href="https://www.reddit.com">Reddit</a></li>
 					<li><a href="https://www.youtube.com">Youtube</a></li>
 					<li><a href="https://boards.4chan.org/g/">/g/</a></li>
+					<li><a href="https://boards.4chan.org/b/">/b/</a></li>
 				</ul>
 			</div>
 
@@ -392,9 +502,10 @@
 
 			<div class="navElements" id="info">
 				<ul>
-					<li><a href="https://wikipedia.com/">Wikipedia</a></li>
+					<li><a href="https://stackexchange.com/sites#/">StackExchange</a></li>
 					<li><a href="https://wiki.archlinux.org/">ArchWiki</a></li>
 					<li><a href="https://news.ycombinator.com/newest">HackerNews</a></li>
+					<li><a href="http://gen.lib.rus.ec/">LibGen</a></li>
 				</ul>
 			</div>
 
@@ -406,19 +517,18 @@
 					<li><a href="http://nyaa.se">Nyaa</a></li>
 				</ul>
 			</div>
-
-			<script>toggle('navElements');</script>
-
-<!-- ########################################################## -->
-
+			<script>toggle('navElements', 'botnet');</script>
 		</header>
 
 		<!--aside></aside-->
 
 		<section>
-			<form method="get" action="https://encrypted.google.com/search" id="search">
-				<input type="text" autofocus name="q" placeholder="Google" maxlength="255"/>
-			</form>
+			<div id="search">
+				<form method="get" action="#" id="searchForm" onSubmit="fn_search();" >
+					<input type="text" autofocus id="searchText" name="q" placeholder=";g, ;yt, ;wiki, ;redd, ;flip, ;libg, ;tbox" maxlength="255"/>
+				</form>
+			</div>
+
 			<div id="feeds-wrapper">
 				<div class="feeds" id="weather">
 					<script type="text/javascript">
