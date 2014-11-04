@@ -11,6 +11,8 @@
 	Replace local websites with .localdomain names
 	Change image paths before uploading
 	Added a bunch of search options
+	Moved each colorscheme to its own bg/fg coupling
+	Added ;tpb
 -->
 <!-- ########################################################## -->
 
@@ -39,10 +41,10 @@
 				text-align: center;
 
 				font-family: Source Sans Pro, Terminus,  sans;
-				color: #CCC;
+				color: #000;
 				font-size: 10px;
-				opacity: 0.8;
-				filter: alpha(opacity=80)
+				opacity: 0.7;
+				filter: alpha(opacity=70);
 			}
 			a {
 				color: #666666;
@@ -59,8 +61,6 @@
 			nav {
 				/*padding: 0.5em;
 				margin: 0.5em;*/
-				opacity: 0.30;
-				filter: alpha(opacity=30); /* <IE8 compatibility*/
 			}
 				.navicon {
 					display: inline-block;
@@ -75,10 +75,12 @@
 					border-radius: 1.5em;
 					/*padding: 0.25em 0.5em 0.0em 0.5em;*/
 					padding: 0.15em;
-					margin: 0.25em;
-					margin-bottom: 0;
+					margin: 0.35em;
 					cursor:pointer;
 					overflow-x:hidden;
+					opacity: 0.60;
+					filter: alpha(opacity=60); /* <IE8 compatibility*/
+
 				}
 					.navicon:hover {
 						border: 0.25em solid black;
@@ -91,8 +93,8 @@
 						margin-top: 0.1em;
 						margin-bottom: 0.5em;
 						/*background: #FFFFFF;*/
-						opacity: 0.60;
-						filter: alpha(opacity=60); /* <IE8 compatibility*/
+						/*opacity: 0.60;
+						filter: alpha(opacity=60);*/ /* <IE8 compatibility*/
 					}
 					.navElements ul li {
 						display: inline-block;
@@ -130,8 +132,8 @@
 					margin-left: 0.4%;
 					margin-right: 0.4%;
 					border: 1px solid gray;
-					opacity: 0.6;
-					filter: alpha(opacity=60);
+					/*opacity: 0.6;
+					filter: alpha(opacity=60);*/
 					font-size: 1.15em;
 					float: left;
 					width:32%;
@@ -163,7 +165,7 @@
 				font-weight: 700;
 			}
 				footer p {
-					margin: 0;
+					margin: 0.4em;
 				}
 				footer a {
 					margin-left: 0.2em;
@@ -190,6 +192,9 @@
 				margin-left: 1em;
 				font-size: 1.5em;
 			}
+				#loginPortal a {
+					color: inherit;
+				}
 			#clock {
 				/*font-family: Dancing Script, sans;*/
 				font-size: 10em;
@@ -203,14 +208,14 @@
 				margin-top: 0.5em;
 				margin-bottom: 2em;
 				padding-left: 1em;
-				text-align: left;
+				text-align: center;
 				width: 80%;
-				opacity: 0.60;
-				filter: alpha(opacity=60); /* <IE8 compatibility*/
+				/*opacity: 0.60;
+				filter: alpha(opacity=60);*/ /* <IE8 compatibility*/
 			}
 				#search input:focus {
-					opacity: 0.60;
-					filter: alpha(opacity=60); /* <IE8 compatibility*/
+					/*opacity: 0.60;
+					filter: alpha(opacity=60);*/ /* <IE8 compatibility*/
 				}
 
 			#feeds-wrapper {
@@ -281,20 +286,23 @@
 			//Update background color according to time - http://www.december.com/html/spec/color0.html
 			function updateBackground() {
 				//colors from dark to light
-				var ccodes=["#696969", "#787878", "#828282", "#919191", "#A1A1A1", "#ABABAB",
-							"#B8B8B8","#C2C2C2", "#CFCFCF", "#D9D9D9", "#E5E5E5", "#EDEDED"];
+				var ccodes=[
+							["#5C5C5C", "#EDEDED"], ["#696969", "#E5E5E5"], ["#787878", "#D9D9D9"], ["#828282", "#CFCFCF"],
+							["#919191", "#F7F7F7"], ["#A1A1A1", "#EBEBEB"], ["#ABABAB", "#F0F0F0"], ["#B8B8B8", "#919191"], 
+							["#C2C2C2", "#828282"], ["#CFCFCF", "#787878"], ["#D9D9D9", "#696969"], ["#E5E5E5", "#5C5C5C"],["#EDEDED", "#5C5C5C"]
+						];
 
 				var d= new Date();
-				h=d.getHours();
+				h= d.getHours();
 				t=h % 12;
 				//alert(h+":"+t);
 				if (h >= 12) {
-					document.body.style.backgroundColor=ccodes[12-1-t];
-					document.body.style.color=ccodes[t];
+					document.body.style.backgroundColor=ccodes[12-t][0];
+					document.body.style.color=ccodes[12-t][1];
 				}
 				else {
-					document.body.style.backgroundColor=ccodes[t];
-					document.body.style.color=ccodes[12-1-t];
+					document.body.style.backgroundColor=ccodes[t][0];
+					document.body.style.color=ccodes[t][1];
 				}
 				//reload
 				var t=setTimeout(function(){updateBackground()}, 60000);
@@ -304,6 +312,7 @@
 		<!-- ########################################################## -->
 
 		<script>
+			//toggle display to tabs
 			function toggle( tabGroup, tabId ) { //script to toggle content displayed in section_tabs, default=0 follows #anchors
 				//collect all ids
 				var sel = document.getElementsByClassName(tabGroup);
@@ -340,6 +349,14 @@
 				var leader= ';';
 				var searchForm=document.getElementById('searchForm');
 				var actionList=[
+//						{	//template
+//							match_string: "",
+//							name: "",
+//							url: "",
+//							extra_inputs: [
+//								{type: "hidden", attributes: [ ['name', 'title'], ['value', "Special:Search" ] ]},
+//							]
+//						},
 						{	//google (default)
 							match_string: "g",
 							name: "q",
@@ -385,6 +402,15 @@
 								{type: "hidden", attributes: [ ['name', 'open'], ['value', "0" ] ]},
 								{type: "hidden", attributes: [ ['name', 'view'], ['value', "detailed" ] ]},
 								{type: "hidden", attributes: [ ['name', 'column'], ['value', "def" ] ]}
+							]
+						},
+						{	//TPB
+							match_string: "tpb",
+							name: "q",
+							url: "https://thepiratebay.se/s/",
+							extra_inputs: [
+								{type: "hidden", attributes: [ ['name', 'page'], ['value', "0" ] ]},
+								{type: "hidden", attributes: [ ['name', 'orderby'], ['value', "99" ] ]},
 							]
 						},
 						{	//torbox
@@ -438,7 +464,7 @@
 
 		<header>
 			<div id="loginPortal">
-				<a href="http://10.254.254.13/0/up/">Internet</a>
+				<a href="http://netlogin/0/up/">Internet</a>
 			</div>
 			<div id="clock"></div>
 			<script>updateClock();updateBackground();</script>
@@ -456,65 +482,65 @@
 
 			<div class="navElements" id="fav">
 				<ul>
-					<li><a href="https://www.reddit.com">Reddit</a></li>
-					<li><a href="https://www.youtube.com">Youtube</a></li>
-					<li><a href="https://boards.4chan.org/g/">/g/</a></li>
-					<li><a href="https://boards.4chan.org/b/">/b/</a></li>
+					<li><a href="https://www.reddit.com" target="_blank">Reddit</a></li>
+					<li><a href="https://www.youtube.com" target="_blank">Youtube</a></li>
+					<li><a href="https://boards.4chan.org/g/" target="_blank">/g/</a></li>
+					<li><a href="https://boards.4chan.org/b/" target="_blank">/b/</a></li>
 				</ul>
 			</div>
 
 			<div class="navElements" id="raspi">
 				<ul style="margin-bottom:0px;">
-					<li class="head"> <a href="http://rpi/">PiHome</a> </li>
-					<li> <a href="http://rpi/slate/">/slate</a> </li>
-					<li> <a href="http://rpi/files/">/files</a> </li>
-					<li> <a href="http://rpi/profile/">/profile</a> </li>
+					<li class="head"> <a href="http://rpi/" target="_blank">PiHome</a> </li>
+					<li> <a href="http://rpi/slate/" target="_blank">/slate</a> </li>
+					<li> <a href="http://rpi/files/" target="_blank">/files</a> </li>
+					<li> <a href="http://rpi/profile/" target="_blank">/profile</a> </li>
 				</ul>
 
 				<ul>
-					<li class="head"> <a href="https://desktop/">Desktop</a> </li>
-					<li> <a href="http://desktop/files/">/files</a> </li>
-					<li> <a href="https://desktop/torrent/">/torrents</a> </li>
+					<li class="head"> <a href="https://desktop/" target="_blank">Desktop</a> </li>
+					<li> <a href="http://desktop/files/" target="_blank">/files</a> </li>
+					<li> <a href="https://desktop/torrent/" target="_blank">/torrents</a> </li>
 				</ul>
 			</div>
 
 			<div class="navElements" id="botnet">
 				<ul>
-					<li><a href="https://gmail.com/">Gmail</a></li>
-					<li><a href="https://keep.google.com/">Keep</a></li>
-					<li><a href="https://drive.google.com/">Drive</a></li>
-					<li><a href="https://facebook.com/">Facebook</a></li>
-					<li><a href="https://linkedin.com/">LinkedIn</a></li>
-					<li><a href="https://twitter.com/">Twitter</a></li>
-					<li><a href="https://github.com/">Github</a></li>
+					<li><a href="https://accounts.google.com/ServiceLogin?service=mail" target="_blank">Gmail</a></li>
+					<li><a href="https://keep.google.com/" target="_blank">Keep</a></li>
+					<li><a href="https://drive.google.com/" target="_blank">Drive</a></li>
+					<li><a href="https://facebook.com/" target="_blank">Facebook</a></li>
+					<li><a href="https://linkedin.com/" target="_blank">LinkedIn</a></li>
+					<li><a href="https://twitter.com/" target="_blank">Twitter</a></li>
+					<li><a href="https://github.com/" target="_blank">Github</a></li>
 				</ul>
 			</div>
 
 
 			<div class="navElements" id="commerce">
 				<ul>
-					<li><a href="http://www.ebay.in/">EBay</a></li>
-					<li><a href="http://www.amazon.in/">Amazon</a></li>
-					<li><a href="http://www.flipkart.com/">Flipkart</a></li>
-					<li><a href="http://www.myntra.com/">Myntra</a></li>
+					<li><a href="http://www.ebay.in/" target="_blank">EBay</a></li>
+					<li><a href="http://www.amazon.in/" target="_blank">Amazon</a></li>
+					<li><a href="http://www.flipkart.com/" target="_blank">Flipkart</a></li>
+					<li><a href="http://www.myntra.com/" target="_blank">Myntra</a></li>
 				</ul>
 			</div>
 
 			<div class="navElements" id="info">
 				<ul>
-					<li><a href="https://stackexchange.com/sites#/">StackExchange</a></li>
-					<li><a href="https://wiki.archlinux.org/">ArchWiki</a></li>
+					<li><a href="https://stackexchange.com/sites#/" target="_blank">StackExchange</a></li>
+					<li><a href="https://wiki.archlinux.org/" target="_blank">ArchWiki</a></li>
 					<li><a href="https://news.ycombinator.com/newest">HackerNews</a></li>
-					<li><a href="http://gen.lib.rus.ec/">LibGen</a></li>
+					<li><a href="http://gen.lib.rus.ec/" target="_blank">LibGen</a></li>
 				</ul>
 			</div>
 
 			<div class="navElements" id="torr">
 				<ul>
-					<li><a href="https://thepiratebay.se/">TPB</a></li>
-					<li><a href="http://torbox.net">Torbox</a></li>
-					<li><a href="http://publichd.se/">PublicHD</a></li>
-					<li><a href="http://nyaa.se">Nyaa</a></li>
+					<li><a href="https://thepiratebay.se/" target="_blank">TPB</a></li>
+					<li><a href="http://torbox.net/" target="_blank">Torbox</a></li>
+					<li><a href="http://publichd.se/" target="_blank">PublicHD</a></li>
+					<li><a href="http://nyaa.se/" target="_blank">Nyaa</a></li>
 				</ul>
 			</div>
 			<script>toggle('navElements', 'botnet');</script>
@@ -525,7 +551,7 @@
 		<section>
 			<div id="search">
 				<form method="get" action="#" id="searchForm" onSubmit="fn_search();" >
-					<input type="text" autofocus id="searchText" name="q" placeholder=";g, ;yt, ;wiki, ;redd, ;flip, ;libg, ;tbox" maxlength="255"/>
+					<input type="text" autofocus id="searchText" name="q" placeholder=";g, ;yt, ;wiki, ;redd, ;flip, ;libg, ;tpb, ;tbox" maxlength="255"/>
 				</form>
 			</div>
 
