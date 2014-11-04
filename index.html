@@ -2,23 +2,9 @@
 <html>
 	<head>
 
-<!-- ########################################################## -->
-<!-- TODO ##################################################### -->
-<!--
-	Added feeds
-	Added Icons Credits http://iconmonstr.com
-	Background changes per hour
-	Replace local websites with .localdomain names
-	Change image paths before uploading
-	Added a bunch of search options
-	Moved each colorscheme to its own bg/fg coupling
-	Added ;tpb
--->
-<!-- ########################################################## -->
-
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
 		<link href="./images/favicon.svg" rel="icon" type="image/x-icon" />
 
 		<title>HomePage.v2.1</title>
@@ -27,7 +13,7 @@
 <!-- Begin CSS################################################# -->
 <!-- ########################################################## -->
 
-		<style>
+		<style type="text/css">
 			@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
 			body {
@@ -40,7 +26,7 @@
 				/*width: auto;*/
 				text-align: center;
 
-				font-family: Source Sans Pro, Terminus,  sans;
+				font-family: "Source Sans Pro", Terminus,  sans;
 				color: #000;
 				font-size: 10px;
 				opacity: 0.7;
@@ -48,6 +34,10 @@
 			}
 			a {
 				color: #666666;
+			}
+			p {
+				font-size: 1.5em;
+				margin: 0.3em;
 			}
 			ul li {
 				display: block;
@@ -57,6 +47,15 @@
 			}
 			h2 {
 				font-size: 2em;
+				margin: 0;
+			}
+			h3 {
+				font-size: 1.5em;
+				margin: 0;
+			}
+			hr {
+				width: 75%;
+				margin-top: 1em;
 			}
 			nav {
 				/*padding: 0.5em;
@@ -80,7 +79,6 @@
 					overflow-x:hidden;
 					opacity: 0.60;
 					filter: alpha(opacity=60); /* <IE8 compatibility*/
-
 				}
 					.navicon:hover {
 						border: 0.25em solid black;
@@ -126,33 +124,37 @@
 				margin: 1em;
 				text-align: center;
 			}
-				.feeds {
-					background: #FFFFFF;
+				.gfeeds {
+					background: #FFF;
 					margin-bottom: 1em;
+					margin-bottom: 0.5em;
 					margin-left: 0.4%;
 					margin-right: 0.4%;
 					border: 1px solid gray;
+					border-radius: 0.5em;
 					/*opacity: 0.6;
 					filter: alpha(opacity=60);*/
-					font-size: 1.15em;
 					float: left;
 					width:32%;
 					height: 320px;
 					overflow-x: scroll;
 				}
-					.feeds ul {
-						padding: 0;
+					.gfeeds p.title {
+						margin: 0.5em;
+						color: #999;
 					}
-					.rss-title {
-						/*display: none;*/
-						font-size: 1.1em;
+					.gfeeds .title  a {
+						color: #666;
 						font-weight: 700;
+						display: block;
 					}
-					.rss-item {
-						display:  block !important;
-						margin-left: 0.5em;
-						margin-right: 0.5em;
-						font-size: 1.1em !important;
+					.gfeeds ul {
+						padding: 0;
+						margin-top:0;
+					}
+						.gfeeds ul li {
+							font-size: 1.4em;
+							padding: 0.5em;
 					}
 
 			footer {
@@ -161,7 +163,6 @@
 				padding: 1em;
 				bottom: 0px;
 				text-align: center;
-				font-size: 1.5em;
 				font-weight: 700;
 			}
 				footer p {
@@ -184,17 +185,66 @@
 
 			/* -- ########################################################## -- */
 
-			#loginPortal {
+			#loginPortal img{
 				position: absolute;
 				top:0;
 				left:0;
-				margin-top: 1em;
-				margin-left: 1em;
+				margin-top: 0.5em;
+				margin-left: 0.5em;
 				font-size: 1.5em;
+
+				height: 24px;
+				width: 24px;
+
+				opacity: 0.30;
+				filter: alpha(opacity=30); /* <IE8 compatibility*/
 			}
-				#loginPortal a {
-					color: inherit;
+				#loginPortal img:hover {
+					opacity: 0.60;
+					filter: alpha(opacity=60); /* <IE8 compatibility*/
 				}
+
+			#infoButton div{
+				background: #FFF;
+				position: absolute;
+				top:0;
+				right: 0;
+				max-width: 300px;
+				text-align: left;
+				visibility: hidden;
+				margin-top:2em;
+				margin-right: 2em;
+				padding: 1em;
+				color: #999;
+				z-index: 999;
+				border: 2px solid gray;
+				border-radius:0.5em;
+			}
+			#infoButton img{
+				position: absolute;
+				top:0;
+				right:0;
+				margin-top: 0.5em;
+				margin-right: 0.5em;
+				font-size: 1.5em;
+				height: 24px;
+				width: 24px;
+				opacity: 0.30;
+				filter: alpha(opacity=30); /* <IE8 compatibility*/
+			}
+				#infoButton img:hover {
+					opacity: 0.60;
+					filter: alpha(opacity=60); /* <IE8 compatibility*/
+				}
+				#infoButton:hover div {
+					visibility: visible;
+				}
+				#infoButton ul {
+					padding-left: 1em;
+				}
+					#infoBtton ul li {
+						font-size: 1.1em;
+					}
 			#clock {
 				/*font-family: Dancing Script, sans;*/
 				font-size: 10em;
@@ -232,12 +282,13 @@
 					float:none;
 					width: auto;
 				}
-
-				/*.navElements ul li {
-					display: block;
-				}*/
-
-				.feeds {
+					.feeds {
+					float: none;
+					width: auto;
+					height: auto;
+					overflow: auto;
+				}
+				.gfeeds {
 					float: none;
 					width: auto;
 					height: auto;
@@ -250,30 +301,16 @@
 <!-- Begin JS################################################## -->
 <!-- ########################################################## -->
 
-		<script>
-			//Feed URLs/params
-			weather_feed_num = 3;
-			weather_feed="http://open.live.bbc.co.uk/weather/feeds/en/1275004/3dayforecast.rss";
-
-			yts_feed_num=10;
-			yts_feed="http://yts.re/rss/0/All/All/0";
-
-			cnet_feed_num=10;
-			cnet_feed="http://www.cnet.com/rss/all/";
-		</script>
-
-		<!-- ########################################################## -->
-
-		<script>
+		<script type="text/javascript">
 			//Clock
 			function updateClock() {
 				var d=new Date();
 				document.getElementById('clock').innerHTML=checkTime(d.getHours()).toString()+":"+checkTime(d.getMinutes()).toString()+":"+checkTime(d.getSeconds()).toString();
-				var t=setTimeout(function(){updateClock()}, 500);
+				var t=setTimeout(function(){updateClock();}, 500);
 			}
 		</script>
 
-		<script>
+		<script type="text/javascript">
 			function checkTime(i) {
 				if (i<10) {i = "0" + i;}  // add zero in front of numbers < 10
 				return i;
@@ -282,13 +319,13 @@
 
 		<!-- ########################################################## -->
 
-		<script>
+		<script type="text/javascript">
 			//Update background color according to time - http://www.december.com/html/spec/color0.html
 			function updateBackground() {
 				//colors from dark to light
 				var ccodes=[
 							["#5C5C5C", "#EDEDED"], ["#696969", "#E5E5E5"], ["#787878", "#D9D9D9"], ["#828282", "#CFCFCF"],
-							["#919191", "#F7F7F7"], ["#A1A1A1", "#EBEBEB"], ["#ABABAB", "#F0F0F0"], ["#B8B8B8", "#919191"], 
+							["#919191", "#F7F7F7"], ["#A1A1A1", "#EBEBEB"], ["#ABABAB", "#F0F0F0"], ["#B8B8B8", "#919191"],
 							["#C2C2C2", "#828282"], ["#CFCFCF", "#787878"], ["#D9D9D9", "#696969"], ["#E5E5E5", "#5C5C5C"],["#EDEDED", "#5C5C5C"]
 						];
 
@@ -311,7 +348,7 @@
 
 		<!-- ########################################################## -->
 
-		<script>
+		<script type="text/javascript">
 			//toggle display to tabs
 			function toggle( tabGroup, tabId ) { //script to toggle content displayed in section_tabs, default=0 follows #anchors
 				//collect all ids
@@ -344,19 +381,19 @@
 
 		<!-- ########################################################## -->
 
-		<script>
+		<script type="text/javascript">
 			function fn_search() {
 				var leader= ';';
 				var searchForm=document.getElementById('searchForm');
 				var actionList=[
-//						{	//template
-//							match_string: "",
-//							name: "",
-//							url: "",
-//							extra_inputs: [
-//								{type: "hidden", attributes: [ ['name', 'title'], ['value', "Special:Search" ] ]},
-//							]
-//						},
+						//{	//template
+						//	match_string: "",
+						//	name: "",
+						//	url: "",
+						//	extra_inputs: [
+						//		{type: "hidden", attributes: [ ['name', 'title'], ['value', "Special:Search" ] ]},
+						//	]
+						//},
 						{	//google (default)
 							match_string: "g",
 							name: "q",
@@ -410,7 +447,7 @@
 							url: "https://thepiratebay.se/s/",
 							extra_inputs: [
 								{type: "hidden", attributes: [ ['name', 'page'], ['value', "0" ] ]},
-								{type: "hidden", attributes: [ ['name', 'orderby'], ['value', "99" ] ]},
+								{type: "hidden", attributes: [ ['name', 'orderby'], ['value', "99" ] ]}
 							]
 						},
 						{	//torbox
@@ -430,7 +467,7 @@
 						searchForm.action=actionList[action].url; //set action url
 
 						//create and append extra input fields
-						if (actionList[action].extra_inputs.length != 0) {
+						if (actionList[action].extra_inputs.length !== 0) {
 							for (var obj in actionList[action].extra_inputs) {
 								var child_obj=document.createElement('input');
 								child_obj.type=actionList[action].extra_inputs[obj].type;
@@ -449,9 +486,92 @@
 						searchForm.searchText.value=searchForm.searchText.value.replace(leader + actionList[action].match_string, "");
 						break;
 					}
-
-									}
+				}
 			}
+		</script>
+
+		<!-- ########################################################## -->
+
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+			//google feed api for displaying rss
+			google.load("feeds", "1");
+			/*!--Sample feedbox html
+				<div class="feeds">
+					<p class="feed-title">
+						<a href="url">title</a>
+						description
+					</p>
+					<ul>
+						<li> entry </li>
+						<li> entry </li>
+					</ul>
+				</div>
+--*/
+			function feed_init(furl, flen, fdiv) {
+				var feed=new google.feeds.Feed(furl);
+				feed.setNumEntries(flen);
+				feed.setResultFormat(google.feeds.Feed.JSON_FORMAT);
+				feed.includeHistoricalEntries();
+
+				feed.load(function(result){
+						if ( !result.error ) {
+					//build the html
+							var container=document.getElementById("feeds-wrapper");
+
+								if (document.getElementById(fdiv)) {
+									var feedBox=document.getElementById(fdiv);
+									while (feedBox.firstChild){
+										feedBox.removeChild(feedBox.firstChild);
+									}
+								}
+								else {
+									var feedBox=document.createElement("div");
+									feedBox.setAttribute("id", fdiv);
+									feedBox.setAttribute("class", "gfeeds");
+									}
+
+									var ftitle=document.createElement("p");
+									ftitle.setAttribute("class", "title");
+
+										var flink=document.createElement("a");
+										flink.setAttribute("href", result.feed.link);
+										flink.appendChild(document.createTextNode(result.feed.title));
+
+									ftitle.appendChild(flink);
+									ftitle.appendChild(document.createTextNode(result.feed.description));
+
+
+									var feedul=document.createElement("ul");
+
+									//if (flen == "" || flen > result.feed.entries.length ) { flen = result.feed.entries.length;}
+
+										for (var i=0; i<flen; i++) {
+											var entry=result.feed.entries[i];
+											//make the html from the feed
+											var li=document.createElement("li");
+
+												var elink=document.createElement("a");
+												elink.setAttribute("href", entry.link);
+												elink.setAttribute("title", entry.contentSnippet);
+												elink.appendChild(document.createTextNode(entry.title));
+
+											li.appendChild(elink);
+											feedul.appendChild(li);
+										}
+								feedBox.appendChild(ftitle);
+								feedBox.appendChild(feedul);
+
+							container.appendChild(feedBox);
+					}
+					//	else { alert("Error with feed: "+furl);}
+					}
+				);
+				//refresh every 15 mins
+				var rf=setTimeout(function(){feed_init(furl, flen, fdiv)},300000);
+
+			}
+			//google.setOnLoadCallback(feed_init);
 		</script>
 	</head>
 
@@ -464,10 +584,47 @@
 
 		<header>
 			<div id="loginPortal">
-				<a href="http://netlogin/0/up/">Internet</a>
+				<a href="http://netlogin/0/up/" title="Web Login"><img src="./images/icons/iconmonstr-globe-4-icon.svg" alt="Internet"/></a>
 			</div>
+			<div id="infoButton">
+				<img src="./images/icons/iconmonstr-info-6-icon.svg" alt="About"/>
+				<div>
+					<h2>About</h2>
+					<p>This is my browser homepage.</p>
+					<p>Icon credits to <a href="http://iconmonstr.com">iconmonstr</a></p>
+				<hr/>
+					<h2>Usage</h2>
+					<p>Set this page address to the default page link in your browser, e.g</p>
+					<h3>firefox</h3>
+					<p>
+							in <a>about:config</a> change value of <a>browser.newtab.url</a> to
+							<script>document.write("'"+window.location.href+"'");</script>
+							<br/>
+							(default value: about.newtab)
+					</p>
+				<hr/>
+					<h2>Changelog</h2>
+					<ul style="padding-left: 1em; font-size: 1.1em;">
+						<li>Added feeds</li>
+						<li>Added Icons Credits http://iconmonstr.com</li>
+						<li>Background changes per hour</li>
+						<li>Replace local websites with .localdomain names</li>
+						<li>Change image paths before uploading</li>
+						<li>Added a bunch of search options</li>
+						<li>Moved each colorscheme to its own bg/fg coupling</li>
+						<li>Added ;tpb</li>
+						<li>Replaced loginPortal icon</li>
+						<li>Finally added google feeds for feeds</li>
+						<li>Auto refresh feeds</li>
+						<li>Incorporated most of the stuff in script, adding feeds are easier</li>
+						<li>Added about div</li>
+						<li>Fixed some minor bugs here and there</li>
+					</ul>
+				</div>
+			</div>
+
 			<div id="clock"></div>
-			<script>updateClock();updateBackground();</script>
+			<script type="text/javascript">updateClock();updateBackground();</script>
 
 			<nav>
 				<img class="navicon" src="./images/icons/iconmonstr-network-5-icon.svg" alt="favourites" title="Favourites" onmouseover="toggle('navElements', 'fav');"/>
@@ -543,35 +700,22 @@
 					<li><a href="http://nyaa.se/" target="_blank">Nyaa</a></li>
 				</ul>
 			</div>
-			<script>toggle('navElements', 'botnet');</script>
+			<script type="text/javascript">toggle('navElements', 'botnet');</script>
 		</header>
 
 		<!--aside></aside-->
 
 		<section>
 			<div id="search">
-				<form method="get" action="#" id="searchForm" onSubmit="fn_search();" >
+				<form method="get" action="https://encrypted.google.com/search" id="searchForm" onSubmit="fn_search();" >
 					<input type="text" autofocus id="searchText" name="q" placeholder=";g, ;yt, ;wiki, ;redd, ;flip, ;libg, ;tpb, ;tbox" maxlength="255"/>
 				</form>
 			</div>
 
 			<div id="feeds-wrapper">
-				<div class="feeds" id="weather">
-					<script type="text/javascript">
-						document.write('<script id="weather-feed" type="text/javascript" src="http://feed2js.org//feed2js.php?src='+ weather_feed + '&chan=y&num=' + weather_feed_num + '&utf=y"  "></scr' + 'ipt>');
-					</script>
-				</div>
-
-				<div class="feeds" id="cnet">
-					<script type="text/javascript">
-						document.write('<script id="yts-feed" type="text/javascript" src="http://feed2js.org//feed2js.php?src='+ cnet_feed + '&chan=y&num=' + cnet_feed_num + '&utf=y"  "></scr' + 'ipt>');
-					</script>
-				</div>
-				<div class="feeds" id="yts">
-					<script type="text/javascript">
-						document.write('<script id="yts-feed" type="text/javascript" src="http://feed2js.org//feed2js.php?src='+ yts_feed + '&chan=y&num=' + yts_feed_num + '&utf=y"  "></scr' + 'ipt>');
-					</script>
-				</div>
+				<script> feed_init("http://open.live.bbc.co.uk/weather/feeds/en/1275004/3dayforecast.rss", 3, "weather");</script>
+				<script> feed_init("http://www.cnet.com/rss/all/", 10, "cnet");</script>
+				<script> feed_init("http://yts.re/rss/0/1080p/All/5", 10, "yts");</script>
 			</div>
 		</section>
 
