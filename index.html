@@ -57,6 +57,15 @@
 				width: 75%;
 				margin-top: 1em;
 			}
+			table {
+			}
+			tr {
+			}
+			td {
+				font-size: 1.5em;
+				color:#666;
+				margin-right: 0.7em;
+			}
 			nav {
 				/*padding: 0.5em;
 				margin: 0.5em;*/
@@ -135,7 +144,7 @@
 					/*opacity: 0.6;
 					filter: alpha(opacity=60);*/
 					float: left;
-					width:32%;
+					width:32.2%;
 					height: 320px;
 					overflow-x: scroll;
 				}
@@ -156,6 +165,19 @@
 							font-size: 1.4em;
 							padding: 0.5em;
 					}
+				.infoElements {
+					border: none !important;
+					margin-right:0 !important;
+				}
+					.infoElements ul {
+						padding-left: 1em;
+						list-style-type; circle;
+					}
+						.infoElements ul li {
+							font-size: 1.3em;
+							display:list-item;
+							padding-bottom: 0.3em;
+						}
 
 			footer {
 				clear: both;
@@ -166,7 +188,7 @@
 				font-weight: 700;
 			}
 				footer p {
-					margin: 0.4em;
+					margin: 0.6em;
 				}
 				footer a {
 					margin-left: 0.2em;
@@ -206,14 +228,16 @@
 
 			#infoButton div{
 				background: #FFF;
+				display: block;
 				position: absolute;
 				top:0;
 				right: 0;
-				max-width: 260px;
+				width: 260px;
 				text-align: left;
 				visibility: hidden;
 				margin-top:2em;
 				margin-right: 2em;
+				margin-bottom: 1em;
 				padding: 1em;
 				color: #999;
 				z-index: 999;
@@ -239,12 +263,6 @@
 				#infoButton:hover div {
 					visibility: visible;
 				}
-				#infoButton ul {
-					padding-left: 1em;
-				}
-					#infoBtton ul li {
-						font-size: 1.1em;
-					}
 			#clock {
 				/*font-family: Dancing Script, sans;*/
 				font-size: 10em;
@@ -531,6 +549,12 @@
 									feedBox.setAttribute("class", "gfeeds");
 									}
 
+									/*var refBtn=document.createElement("img");
+									refBtn.setAttribute("class", "refreshButton");
+									refBtn.setAttribute("alt", "Click to refresh");
+									refBtn.setAttribute("onclick", function(){feed_init(furl, flen, fdiv)});
+									refBtn.setAttribute("src", "./images/icons/iconmonstr-refresh-3-icon.svg");*/
+
 									var ftitle=document.createElement("p");
 									ftitle.setAttribute("class", "title");
 
@@ -546,7 +570,7 @@
 
 									//if (flen == "" || flen > result.feed.entries.length ) { flen = result.feed.entries.length;}
 
-										for (var i=0; i<flen; i++) {
+										for (var i=0; i<result.feed.entries.length; i++) {
 											var entry=result.feed.entries[i];
 											//make the html from the feed
 											var li=document.createElement("li");
@@ -559,6 +583,7 @@
 											li.appendChild(elink);
 											feedul.appendChild(li);
 										}
+								//feedBox.appendChild(refBtn);
 								feedBox.appendChild(ftitle);
 								feedBox.appendChild(feedul);
 
@@ -589,37 +614,58 @@
 			<div id="infoButton">
 				<img src="./images/icons/iconmonstr-info-6-icon.svg" alt="About"/>
 				<div>
-					<h2>About</h2>
-					<p>This is my browser homepage.</p>
-					<p>Icon credits to <a href="http://iconmonstr.com">iconmonstr</a></p>
-				<hr/>
-					<h2>Usage</h2>
-					<p>Set this page address to the default page link in your browser, e.g</p>
-					<h3>firefox</h3>
-					<p>
-							in <a>about:config</a> change value of <a>browser.newtab.url</a> to
+					<h2 style="float:left; margin-right: 1em; text-decoration: underline; cursor: pointer;" onclick="toggle('infoElements', 'about');">about</h2>
+					<h2 style="float:left; margin-right: 1em; text-decoration: underline; cursor: pointer;" onclick="toggle('infoElements', 'usage');">usage</h2>
+					<h2 style="text-decoration: underline; cursor: pointer;" onclick="toggle('infoElements', 'log')">changelog</h2>
+
+					<span class="infoElements" id="about">
+						<p>This is my browser homepage.</p>
+						<p>Icon credits to <a href="http://iconmonstr.com">iconmonstr</a></p>
+					</span>
+
+					<span class="infoElements" id="usage">
+						<p>Set this page address as homepage, or as the default page link in your browser.</p>
+						<h3>firefox</h3>
+						<p>
+							In <a>about:config</a> change value of <a>browser.newtab.url</a> to
 							<script>document.write("'"+window.location.href+"'");</script>
 							<br/>
 							(default value: about.newtab)
-					</p>
-				<hr/>
-					<h2>Changelog</h2>
-					<ul style="padding-left: 1em; font-size: 1.1em;">
-						<li>Added feeds</li>
-						<li>Added Icons Credits http://iconmonstr.com</li>
-						<li>Background changes per hour</li>
-						<li>Replace local websites with .localdomain names</li>
-						<li>Change image paths before uploading</li>
-						<li>Added a bunch of search options</li>
-						<li>Moved each colorscheme to its own bg/fg coupling</li>
-						<li>Added ;tpb</li>
-						<li>Replaced loginPortal icon</li>
-						<li>Finally added google feeds for feeds</li>
-						<li>Auto refresh feeds</li>
-						<li>Incorporated most of the stuff in script, adding feeds are easier</li>
-						<li>Added about div</li>
-						<li>Fixed some minor bugs here and there</li>
-					</ul>
+						</p>
+						<h3>Searches</h3>
+						<table>
+							<tr><td>;g</td><td>Google</td></tr>
+							<tr><td>;yt</td><td>Youtube</td></tr>
+							<tr><td>;wiki</td><td>Wikipedia</td></tr>
+							<tr><td>;redd</td><td>Reddit</td></tr>
+							<tr><td>;flip</td><td>Flipkart</td></tr>
+							<tr><td>;libg</td><td>Library Genesis</td></tr>
+							<tr><td>;tpb</td><td>The PirateBay</td></tr>
+							<tr><td>;tbox</td><td>Torbox</td></tr>
+						</table>
+					</span>
+
+					<span class="infoElements" id="log">
+						<ul>
+							<li>Added feeds</li>
+							<li>Added Icons Credits http://iconmonstr.com</li>
+							<li>Background changes per hour</li>
+							<li>Replace local websites with .localdomain names</li>
+							<li>Change image paths before uploading</li>
+							<li>Added a bunch of search options</li>
+							<li>Moved each colorscheme to its own bg/fg coupling</li>
+							<li>Added ;tpb</li>
+							<li>Replaced loginPortal icon</li>
+							<li>Finally added google feeds for feeds</li>
+							<li>Auto refresh feeds</li>
+							<li>Incorporated most of the stuff in script, adding feeds are easier</li>
+							<li>Added about div</li>
+							<li>Fixed some minor bugs here and there</li>
+							<li>Tabbed up the /info/</li>
+							<li>Added search help</li>
+						</ul>
+					</span>
+					<script type="text/javascript">toggle('infoElements', 'about');</script>
 				</div>
 			</div>
 
