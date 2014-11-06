@@ -64,7 +64,7 @@
 			td {
 				font-size: 1.5em;
 				color:#666;
-				margin-right: 0.7em;
+				padding-right: 0.7em;
 			}
 			nav {
 				/*padding: 0.5em;
@@ -146,7 +146,7 @@
 					float: left;
 					width:32.2%;
 					height: 320px;
-					overflow-x: scroll;
+					overflow-y: scroll;
 				}
 					.gfeeds p.title {
 						margin: 0.5em;
@@ -300,17 +300,9 @@
 					float:none;
 					width: auto;
 				}
-					.feeds {
-					float: none;
-					width: auto;
-					height: auto;
-					overflow: auto;
-				}
 				.gfeeds {
 					float: none;
 					width: auto;
-					height: auto;
-					overflow: auto;
 				}
 			}
 		</style>
@@ -340,7 +332,7 @@
 		<script type="text/javascript">
 			//Update background color according to time - http://www.december.com/html/spec/color0.html
 			function updateBackground() {
-				//colors from dark to light
+				//colors - 0=background from dark to light, 1=fontcolors from light to dark
 				var ccodes=[
 							["#5C5C5C", "#EDEDED"], ["#696969", "#E5E5E5"], ["#787878", "#D9D9D9"], ["#828282", "#CFCFCF"],
 							["#919191", "#F7F7F7"], ["#A1A1A1", "#EBEBEB"], ["#ABABAB", "#F0F0F0"], ["#B8B8B8", "#919191"],
@@ -401,9 +393,9 @@
 
 		<script type="text/javascript">
 			function fn_search() {
-				var leader= ';';
+				var leader= ';'; //this key determines its a search prefix
 				var searchForm=document.getElementById('searchForm');
-				var actionList=[
+				var actionList=[ // match string prefix names, field names and default input required by search engines
 						//{	//template
 						//	match_string: "",
 						//	name: "",
@@ -416,6 +408,12 @@
 							match_string: "g",
 							name: "q",
 							url:"https://encrypted.google.com/search",
+							extra_inputs: []
+						},
+						{	//duckduckgo
+							match_string: "ddg",
+							name: "q",
+							url: "https://duckduckgo.com/",
 							extra_inputs: []
 						},
 						{	// youtube
@@ -478,6 +476,7 @@
 						}
 					];
 				for (var action in actionList) {
+					//look for ;match
 					var match=searchForm.searchText.value.search(leader + actionList[action].match_string);
 					if (match != -1) {
 
@@ -512,8 +511,6 @@
 
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script type="text/javascript">
-			//google feed api for displaying rss
-			google.load("feeds", "1");
 			/*!--Sample feedbox html
 				<div class="feeds">
 					<p class="feed-title">
@@ -526,7 +523,10 @@
 					</ul>
 				</div>
 --*/
-			function feed_init(furl, flen, fdiv) {
+			//initialize google feed api for displaying rss
+			google.load("feeds", "1");
+
+			function feed_init(furl, flen, fdiv) { //feed url, feed item length, div name
 				var feed=new google.feeds.Feed(furl);
 				feed.setNumEntries(flen);
 				feed.setResultFormat(google.feeds.Feed.JSON_FORMAT);
@@ -534,65 +534,66 @@
 
 				feed.load(function(result){
 						if ( !result.error ) {
-					//build the html
+							//build the html
 							var container=document.getElementById("feeds-wrapper");
-
-								if (document.getElementById(fdiv)) {
-									var feedBox=document.getElementById(fdiv);
-									while (feedBox.firstChild){
-										feedBox.removeChild(feedBox.firstChild);
-									}
+							//clear feedbox if exists, or create it
+							if (document.getElementById(fdiv)) {
+								var feedBox=document.getElementById(fdiv);
+								while (feedBox.firstChild){
+									feedBox.removeChild(feedBox.firstChild);
 								}
-								else {
-									var feedBox=document.createElement("div");
-									feedBox.setAttribute("id", fdiv);
-									feedBox.setAttribute("class", "gfeeds");
-									}
+							}
+							else {
+								var feedBox=document.createElement("div");
+								feedBox.setAttribute("id", fdiv);
+								feedBox.setAttribute("class", "gfeeds");
+							}
 
-									/*var refBtn=document.createElement("img");
-									refBtn.setAttribute("class", "refreshButton");
-									refBtn.setAttribute("alt", "Click to refresh");
-									refBtn.setAttribute("onclick", function(){feed_init(furl, flen, fdiv)});
-									refBtn.setAttribute("src", "./images/icons/iconmonstr-refresh-3-icon.svg");*/
+							/*var refBtn=document.createElement("img");
+							refBtn.setAttribute("class", "refreshButton");
+							refBtn.setAttribute("alt", "Click to refresh");
+							refBtn.setAttribute("onclick", function(){feed_init(furl, flen, fdiv)});
+							refBtn.setAttribute("src", "./images/icons/iconmonstr-refresh-3-icon.svg");*/
+							//title
+							var ftitle=document.createElement("p");
+							ftitle.setAttribute("class", "title");
+							//link
+							var flink=document.createElement("a");
+							flink.setAttribute("href", result.feed.link);
+							flink.appendChild(document.createTextNode(result.feed.title));
 
-									var ftitle=document.createElement("p");
-									ftitle.setAttribute("class", "title");
+							ftitle.appendChild(flink);
+							ftitle.appendChild(document.createTextNode(result.feed.description));
 
-										var flink=document.createElement("a");
-										flink.setAttribute("href", result.feed.link);
-										flink.appendChild(document.createTextNode(result.feed.title));
+							//entries ul
+							var feedul=document.createElement("ul");
 
-									ftitle.appendChild(flink);
-									ftitle.appendChild(document.createTextNode(result.feed.description));
+							//if (flen == "" || flen > result.feed.entries.length ) { flen = result.feed.entries.length;}
 
+							//entries li
+							for (var i=0; i<result.feed.entries.length; i++) {
+								var entry=result.feed.entries[i];
+								//make the html from the feed
+								var li=document.createElement("li");
+								//entry links
+								var elink=document.createElement("a");
+								elink.setAttribute("href", entry.link);
+								elink.setAttribute("title", entry.contentSnippet);
+								elink.appendChild(document.createTextNode(entry.title));
 
-									var feedul=document.createElement("ul");
-
-									//if (flen == "" || flen > result.feed.entries.length ) { flen = result.feed.entries.length;}
-
-										for (var i=0; i<result.feed.entries.length; i++) {
-											var entry=result.feed.entries[i];
-											//make the html from the feed
-											var li=document.createElement("li");
-
-												var elink=document.createElement("a");
-												elink.setAttribute("href", entry.link);
-												elink.setAttribute("title", entry.contentSnippet);
-												elink.appendChild(document.createTextNode(entry.title));
-
-											li.appendChild(elink);
-											feedul.appendChild(li);
-										}
+								li.appendChild(elink);
+								feedul.appendChild(li);
+							}
 								//feedBox.appendChild(refBtn);
-								feedBox.appendChild(ftitle);
-								feedBox.appendChild(feedul);
+							feedBox.appendChild(ftitle);
+							feedBox.appendChild(feedul);
 
 							container.appendChild(feedBox);
 					}
 					//	else { alert("Error with feed: "+furl);}
 					}
 				);
-				//refresh every 15 mins
+				//refresh every 5 mins
 				var rf=setTimeout(function(){feed_init(furl, flen, fdiv)},300000);
 
 			}
@@ -614,9 +615,9 @@
 			<div id="infoButton">
 				<img src="./images/icons/iconmonstr-info-6-icon.svg" alt="About"/>
 				<div>
-					<h2 style="float:left; margin-right: 1em; text-decoration: underline; cursor: pointer;" onclick="toggle('infoElements', 'about');">about</h2>
-					<h2 style="float:left; margin-right: 1em; text-decoration: underline; cursor: pointer;" onclick="toggle('infoElements', 'usage');">usage</h2>
-					<h2 style="text-decoration: underline; cursor: pointer;" onclick="toggle('infoElements', 'log')">changelog</h2>
+					<h2 style="float:left; margin-right: 1em; text-decoration: underline; cursor: pointer;" onmouseover="toggle('infoElements', 'about');">about</h2>
+					<h2 style="float:left; margin-right: 1em; text-decoration: underline; cursor: pointer;" onmouseover="toggle('infoElements', 'usage');">usage</h2>
+					<h2 style="text-decoration: underline; cursor: pointer;" onmouseover="toggle('infoElements', 'log')">changelog</h2>
 
 					<span class="infoElements" id="about">
 						<p>This is my browser homepage.</p>
@@ -632,9 +633,10 @@
 							<br/>
 							(default value: about.newtab)
 						</p>
-						<h3>Searches</h3>
+						<h3>Search Prefixes</h3>
 						<table>
 							<tr><td>;g</td><td>Google</td></tr>
+							<tr><td>;ddg</td><td>DuckDuckGo</td></tr>
 							<tr><td>;yt</td><td>Youtube</td></tr>
 							<tr><td>;wiki</td><td>Wikipedia</td></tr>
 							<tr><td>;redd</td><td>Reddit</td></tr>
@@ -663,6 +665,11 @@
 							<li>Fixed some minor bugs here and there</li>
 							<li>Tabbed up the /info/</li>
 							<li>Added search help</li>
+							<li>Added more feeds</li>
+						</ul>
+						<h3><u>todo</u></h3>
+						<ul>
+							<li>Add accordion for displaying single feed from each column</li>
 						</ul>
 					</span>
 					<script type="text/javascript">toggle('infoElements', 'about');</script>
@@ -754,14 +761,17 @@
 		<section>
 			<div id="search">
 				<form method="get" action="https://encrypted.google.com/search" id="searchForm" onSubmit="fn_search();" >
-					<input type="text" autofocus id="searchText" name="q" placeholder=";g, ;yt, ;wiki, ;redd, ;flip, ;libg, ;tpb, ;tbox" maxlength="255"/>
+					<input type="text" autofocus id="searchText" name="q" placeholder=";g, ;ddg, ;yt, ;wiki, ;redd, ;flip, ;libg, ;tpb, ;tbox" maxlength="255"/>
 				</form>
 			</div>
 
 			<div id="feeds-wrapper">
-				<script> feed_init("http://open.live.bbc.co.uk/weather/feeds/en/1275004/3dayforecast.rss", 3, "weather");</script>
-				<script> feed_init("http://www.cnet.com/rss/all/", 10, "cnet");</script>
-				<script> feed_init("http://yts.re/rss/0/1080p/All/5", 10, "yts");</script>
+					<script> feed_init("https://open.live.bbc.co.uk/weather/feeds/en/1275004/3dayforecast.rss", 3, "weather");</script>
+					<script> feed_init("http://rt.com/rss/", 20, "rt");</script>
+					<script> feed_init("http://www.cnet.com/rss/all/", 20, "cnet");</script>
+					<script> feed_init("http://feeds.gawker.com/lifehacker/full", 20, "lifehacker");</script>
+					<script> feed_init("http://feeds.feedburner.com/hackaday/LgoM?format=xml", 20, "hackaday");</script>
+					<script> feed_init("http://rss.slashdot.org/Slashdot/slashdot", 20, "slashdot");</script>
 			</div>
 		</section>
 
