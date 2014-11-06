@@ -428,6 +428,12 @@
 							url:"https://www.reddit.com/search",
 							extra_inputs: []
 						},
+						{	//imdb
+							match_string: "imdb",
+							name: "q",
+							url: "http://www.imdb.com/find",
+							extra_inputs: []
+						},
 						{	//wikipedia
 							match_string:"wiki",
 							name: "search",
@@ -640,6 +646,7 @@
 							<tr><td>;yt</td><td>Youtube</td></tr>
 							<tr><td>;wiki</td><td>Wikipedia</td></tr>
 							<tr><td>;redd</td><td>Reddit</td></tr>
+							<tr><td>;imdb</td><td>IMDB</td></tr>
 							<tr><td>;flip</td><td>Flipkart</td></tr>
 							<tr><td>;libg</td><td>Library Genesis</td></tr>
 							<tr><td>;tpb</td><td>The PirateBay</td></tr>
@@ -666,6 +673,7 @@
 							<li>Tabbed up the /info/</li>
 							<li>Added search help</li>
 							<li>Added more feeds</li>
+							<li>Added IMDB search</li>							<li>Added more feeds</li>
 						</ul>
 						<h3><u>todo</u></h3>
 						<ul>
@@ -761,7 +769,7 @@
 		<section>
 			<div id="search">
 				<form method="get" action="https://encrypted.google.com/search" id="searchForm" onSubmit="fn_search();" >
-					<input type="text" autofocus id="searchText" name="q" placeholder=";g, ;ddg, ;yt, ;wiki, ;redd, ;flip, ;libg, ;tpb, ;tbox" maxlength="255"/>
+					<input type="text" autofocus id="searchText" name="q" placeholder=";g, ;ddg, ;yt, ;wiki, ;redd, ;imdb, ;flip, ;libg, ;tpb, ;tbox" maxlength="255"/>
 				</form>
 			</div>
 
