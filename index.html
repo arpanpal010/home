@@ -136,7 +136,7 @@
 				.gfeeds {
 					background: #FFF;
 					margin-bottom: 1em;
-					margin-bottom: 0.5em;
+					margin-bottom: 1em;
 					margin-left: 0.4%;
 					margin-right: 0.4%;
 					border: 1px solid gray;
@@ -148,6 +148,9 @@
 					height: 320px;
 					overflow-y: scroll;
 				}
+					.gfeeds:hover{
+						box-shadow: 0px 0px 2px #000;
+					}
 					.gfeeds p.title {
 						margin: 0.5em;
 						color: #999;
@@ -528,7 +531,7 @@
 						<li> entry </li>
 					</ul>
 				</div>
---*/
+			--*/
 			//initialize google feed api for displaying rss
 			google.load("feeds", "1");
 
@@ -566,6 +569,7 @@
 							//link
 							var flink=document.createElement("a");
 							flink.setAttribute("href", result.feed.link);
+							flink.setAttribute("target", "_blank");
 							flink.appendChild(document.createTextNode(result.feed.title));
 
 							ftitle.appendChild(flink);
@@ -581,9 +585,14 @@
 								var entry=result.feed.entries[i];
 								//make the html from the feed
 								var li=document.createElement("li");
+								//darken every odd li
+								if ( result.feed.entries.length > 5 && i % 2 == 0) {
+									li.style.backgroundColor="#EAEAEA";
+								}
 								//entry links
 								var elink=document.createElement("a");
 								elink.setAttribute("href", entry.link);
+								elink.setAttribute("target", "_blank");
 								elink.setAttribute("title", entry.contentSnippet);
 								elink.appendChild(document.createTextNode(entry.title));
 
@@ -640,8 +649,9 @@
 							(default value: about.newtab)
 						</p>
 						<h3>Search Prefixes</h3>
+						<p>Add any of the prefixes before the query to search that particular site.</p>
 						<table>
-							<tr><td>;g</td><td>Google</td></tr>
+							<tr><td>;g</td><td>Google (default)</td></tr>
 							<tr><td>;ddg</td><td>DuckDuckGo</td></tr>
 							<tr><td>;yt</td><td>Youtube</td></tr>
 							<tr><td>;wiki</td><td>Wikipedia</td></tr>
@@ -673,7 +683,7 @@
 							<li>Tabbed up the /info/</li>
 							<li>Added search help</li>
 							<li>Added more feeds</li>
-							<li>Added IMDB search</li>							<li>Added more feeds</li>
+							<li>Added IMDB search</li>
 						</ul>
 						<h3><u>todo</u></h3>
 						<ul>
@@ -694,16 +704,14 @@
 				<img class="navicon" src="./images/icons/iconmonstr-currency-indian-rupee-2-icon.svg" title="Commerce" alt="commerce" onmouseover="toggle('navElements', 'commerce');"/>
 				<img class="navicon" src="./images/icons/iconmonstr-book-9-icon.svg" title="Info" alt="info" onmouseover="toggle('navElements', 'info');"/>
 				<img class="navicon" src="./images/icons/iconmonstr-download-13-icon.svg" title="Torrent" alt="torrent" onmouseover="toggle('navElements', 'torr');"/>
-				<!--a href="#" onmouseover="toggle('navElements', 'botnet');">botnet</a-->
-				<!--img class="navicon" src="" alt="Botnet" style="cursor: pointer;"/-->
 			</nav>
 
 			<div class="navElements" id="fav">
 				<ul>
 					<li><a href="https://www.reddit.com" target="_blank">Reddit</a></li>
+					<li><a href="https://www.imgur.com" target="_blank">Imgur</a></li>
 					<li><a href="https://www.youtube.com" target="_blank">Youtube</a></li>
 					<li><a href="https://boards.4chan.org/g/" target="_blank">/g/</a></li>
-					<li><a href="https://boards.4chan.org/b/" target="_blank">/b/</a></li>
 				</ul>
 			</div>
 
@@ -749,7 +757,7 @@
 					<li><a href="https://stackexchange.com/sites#/" target="_blank">StackExchange</a></li>
 					<li><a href="https://wiki.archlinux.org/" target="_blank">ArchWiki</a></li>
 					<li><a href="https://news.ycombinator.com/newest">HackerNews</a></li>
-					<li><a href="http://gen.lib.rus.ec/" target="_blank">LibGen</a></li>
+					<li><a href="http://css-tricks.com/" target="_blank">CSS-Tricks</a></li>
 				</ul>
 			</div>
 
@@ -776,8 +784,10 @@
 			<div id="feeds-wrapper">
 					<script> feed_init("https://open.live.bbc.co.uk/weather/feeds/en/1275004/3dayforecast.rss", 3, "weather");</script>
 					<script> feed_init("http://rt.com/rss/", 20, "rt");</script>
+
 					<script> feed_init("http://www.cnet.com/rss/all/", 20, "cnet");</script>
 					<script> feed_init("http://feeds.gawker.com/lifehacker/full", 20, "lifehacker");</script>
+
 					<script> feed_init("http://feeds.feedburner.com/hackaday/LgoM?format=xml", 20, "hackaday");</script>
 					<script> feed_init("http://rss.slashdot.org/Slashdot/slashdot", 20, "slashdot");</script>
 			</div>
