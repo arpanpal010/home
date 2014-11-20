@@ -1,20 +1,29 @@
 <!doctype html>
 <html>
 	<head>
-
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, inital-scale=1, user-scalable=no">
+
 		<link href="./images/favicon.svg" rel="icon" type="image/x-icon" />
 
-		<title>HomePage.v2.2</title>
+		<!--[IF lt IE 9]>
+			<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
 
-<!-- ########################################################## -->
-<!-- Begin CSS################################################# -->
-<!-- ########################################################## -->
+		<title>HomePage.v2.3</title>
 
-		<style type="text/css">
-			@import url(//fonts.googleapis.com/css?family=Source+Sans+Pro);
+<!-- ######################################################## -->
+<!-- CSS #################################################### -->
+<!-- ######################################################## -->
+
+		<!--link rel="stylesheet" type="text/css" href="./stylesheets/styles.css"-->
+		<style>
+			@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
+		/* Basic styles */
+			* {
+			}
+			html {}
 
 			body {
 				/*background: #F1F1F1;*/
@@ -32,158 +41,72 @@
 				opacity: 0.7;
 				filter: alpha(opacity=70);
 			}
-			a {
-				color: #666666;
-			}
+
 			p {
 				font-size: 1.5em;
 				margin: 0.3em;
 			}
-			ul li {
-				display: block;
-			}
-			h1 {
-				font-size: 3em;
-			}
-			h2 {
-				font-size: 2em;
-				margin: 0;
-			}
-			h3 {
-				font-size: 1.5em;
-				margin: 0;
-			}
+
+			a {color: #666;}
+
 			hr {
 				width: 75%;
 				margin-top: 1em;
 			}
-			table {
-			}
-			tr {
-			}
-			td {
-				font-size: 1.5em;
-				color:#666;
-				padding-right: 0.7em;
-			}
-			nav {
+
+			h1, h2, h3, h4, h5, h6 { margin: 0;}
+				h1 { font-size: 3.0em;}
+				h2 { font-size: 2.0em;}
+				h3 { font-size: 1.5em;}
+				/*h4 { font-size: 1.1em;}
+				h5 { font-size: 0.8em;}
+				h6 { font-size: 0.5em;}*/
+
+			table{}
+				tr, th {}
+				td{
+					font-size: 1.5em;
+					color:#666;
+					padding-right: 0.7em;
+				}
+
+			pre, code, blockquote {}
+
+			/*ul, ol { margin: 0;}*/
+			ul li { display: block;}
+
+			img {}
+
+			span{}
+
+			form {}
+				input {}
+
+		/*-- ######################################################## -- */
+
+		/* Page layout styles */
+			header {}
+
+			nav{
 				/*padding: 0.5em;
 				margin: 0.5em;*/
 			}
-				.navicon {
-					display: inline-block;
-					font-size: 2em;
-					text-decoration: none;
-					/*min-width: 1.5em;
-					min-height:1.5em;*/
-					width:24px;
-					height:24px;
-					background: #FFFFFF;
-					border: 0.25em solid gray;
-					border-radius: 1.5em;
-					/*padding: 0.25em 0.5em 0.0em 0.5em;*/
-					padding: 0.15em;
-					margin: 0.35em;
-					cursor:pointer;
-					overflow-x:hidden;
-					opacity: 0.60;
-					filter: alpha(opacity=60); /* <IE8 compatibility*/
-				}
-					.navicon:hover {
-						border: 0.25em solid black;
-					}
-				.navElements {
-				}
-					.navElements ul {
-						padding-left:0;
-						display: inline-block;
-						margin-top: 0.1em;
-						margin-bottom: 0.5em;
-						/*background: #FFFFFF;*/
-						/*opacity: 0.60;
-						filter: alpha(opacity=60);*/ /* <IE8 compatibility*/
-					}
-					.navElements ul li {
-						display: inline-block;
-						background: #FFF;
-						min-width: 8.5em;
-						border: 1px solid white;
-						border-radius: 1.5em;
-						padding: 0.1em 0.5em 0.3em 0.5em;
-						margin: 0.2em;
-					}
-					.navElements ul li:hover {
-						color: #000;
-						box-shadow: 0px 0px 4px #000;
-					}
-					.navElements a{
-						font-size:2em;
-						text-decoration: none;
-						min-width:4em;
-					}
-					.navElements .head {
-						color: #000;
-						text-decoration: underline;
-					}
 
-		section {
+			/*aside {
+				padding-top: 0.5em;
+				padding-bottom: 0.5em;
+			}*/
+
+			section {
 				/*float: left;*/
 				display: block;
 				/*min-height: 300px; /* keeps footter at bottom in case single section */
 				margin: 1em;
 				text-align: center;
 			}
-				.gfeeds {
-					background: #FFF;
-					margin-bottom: 1em;
-					margin-bottom: 1em;
-					margin-left: 0.4%;
-					margin-right: 0.4%;
-					border: 1px solid gray;
-					border-radius: 0.5em;
-					/*opacity: 0.6;
-					filter: alpha(opacity=60);*/
-					float: left;
-					width:32.2%;
-					height: 320px;
-					overflow-y: scroll;
-				}
-					.gfeeds:hover{
-						box-shadow: 0px 0px 2px #000;
-					}
-					.gfeeds p.title {
-						margin: 0.5em;
-						color: #999;
-					}
-					.gfeeds .title  a {
-						color: #666;
-						font-weight: 700;
-						display: block;
-					}
-					.gfeeds ul {
-						padding: 0;
-						margin-top:0;
-					}
-						.gfeeds ul li {
-							font-size: 1.4em;
-							padding: 0.5em;
-					}
-				.infoElements {
-					border: none !important;
-					margin-right:0 !important;
-				}
-					.infoElements ul {
-						padding-left: 1em;
-						list-style-type; circle;
-					}
-						.infoElements ul li {
-							font-size: 1.3em;
-							display:list-item;
-							padding-bottom: 0.3em;
-						}
 
+			/*article{}*/
 			footer {
-				clear: both;
 				min-height: 2em;
 				padding: 1em;
 				bottom: 0px;
@@ -197,19 +120,150 @@
 					margin-left: 0.2em;
 					margin-right: 0.2em;
 				}
-					.contacticon {
-						height: 24px;
-						width: 24px;
-						opacity: 0.30;
-						filter: alpha(opacity=30); /* <IE8 compatibility*/
+
+		/*-- ######################################################## -- */
+
+		/* Classes */
+			.clear { clear: both;}
+			.full-width { width: 100%;}
+			.no-margin { margin: 0;}
+			.no-padding { padding: 0;}
+			.left {
+				float: left;
+				text-align: left;
+			}
+			.center {
+				float: none;
+				text-align: center;
+			}
+			.right {
+				float: right;
+				text-align: right;
+			}
+
+			.navicon {
+				display: inline-block;
+				font-size: 2em;
+				text-decoration: none;
+				/*min-width: 1.5em;
+				min-height:1.5em;*/
+				width:24px;
+				height:24px;
+				background: #FFFFFF;
+				border: 0.25em solid gray;
+				border-radius: 1.5em;
+				/*padding: 0.25em 0.5em 0.0em 0.5em;*/
+				padding: 0.15em;
+				margin: 0.35em;
+				cursor:pointer;
+				overflow-x:hidden;
+				opacity: 0.60;
+				filter: alpha(opacity=60); /* <IE8 compatibility*/
+			}
+				.navicon:hover {
+					border: 0.25em solid black;
+				}
+
+			.navElements {}
+				.navElements ul {
+					padding-left:0;
+					display: inline-block;
+					margin-top: 0.1em;
+					margin-bottom: 0.5em;
+					/*background: #FFFFFF;*/
+					/*opacity: 0.60;
+					filter: alpha(opacity=60);*/ /* <IE8 compatibility*/
+				}
+				.navElements ul li {
+					display: inline-block;
+					background: #FFF;
+					min-width: 8.5em;
+					border: 1px solid white;
+					border-radius: 1.5em;
+					padding: 0.1em 0.5em 0.3em 0.5em;
+					margin: 0.2em;
+				}
+				.navElements ul li:hover {
+					color: #000;
+					box-shadow: 0px 0px 4px #000;
+				}
+				.navElements ul li a{
+					font-size:2em;
+					text-decoration: none;
+					min-width:4em;
+					display: block;
+				}
+				.navElements .head {
+					color: #000;
+					text-decoration: underline;
+				}
+
+			.gfeeds {
+				background: #FFF;
+				margin-bottom: 1em;
+				margin-bottom: 1em;
+				margin-left: 0.4%;
+				margin-right: 0.4%;
+				border: 1px solid gray;
+				border-radius: 0.5em;
+				/*opacity: 0.6;
+				filter: alpha(opacity=60);*/
+				float: left;
+				width:32.2%;
+				height: 320px;
+				overflow-y: scroll;
+			}
+				.gfeeds:hover{
+					box-shadow: 0px 0px 2px #000;
+					/*overflow-y: visible;
+					height: auto;*/
+				}
+				.gfeeds p.title {
+					margin: 0.5em;
+					color: #999;
+				}
+				.gfeeds .title  a {
+					color: #666;
+					font-weight: 700;
+					display: block;
+				}
+				.gfeeds ul {
+					padding: 0;
+					margin-top:0;
+				}
+					.gfeeds ul li {
+						font-size: 1.4em;
+						padding: 0.5em;
+				}
+
+			.infoElements {
+				border: none !important;
+				margin-right:0 !important;
+			}
+				.infoElements ul {
+					padding-left: 1em;
+					list-style-type; circle;
+				}
+					.infoElements ul li {
+						font-size: 1.3em;
+						display:list-item;
+						padding-bottom: 0.3em;
 					}
-						.contacticon:hover {
-							opacity: 0.60;
-							filter: alpha(opacity=60); /* <IE8 compatibility*/
-						}
 
-			/* -- ########################################################## -- */
+			.contacticon {
+				height: 24px;
+				width: 24px;
+				opacity: 0.30;
+				filter: alpha(opacity=30); /* <IE8 compatibility*/
+			}
+				.contacticon:hover {
+					opacity: 0.60;
+					filter: alpha(opacity=60); /* <IE8 compatibility*/
+				}
 
+		/*-- ######################################################## -- */
+
+		/* Elements */
 			#loginPortal img{
 				position: absolute;
 				top:0;
@@ -266,11 +320,13 @@
 				#infoButton:hover div {
 					visibility: visible;
 				}
+
 			#clock {
 				/*font-family: Dancing Script, sans;*/
 				font-size: 10em;
 				/*float: right;*/
 			}
+
 			#search input[type="text"] {
 				font-size: 1.6em;
 				height: 2em;
@@ -294,15 +350,22 @@
 				margin-right: 5%;
 				width:auto;
 			}
-			
-		/*	#btnTop {
-				visibility:hidden;
+
+			/*	#btnTop {
+					visibility:hidden;
+				}*/
+
+		/*-- ######################################################## -- */
+
+		/* Responsive properties */
+			@media screen and (max-width: 960px) {
+				.gfeeds {
+					width: 48.5%;
+					overflow-y: auto;
+				}
 			}
-		*/
-
-			/*-- ########################################################## -- */
-
-			@media screen and ( max-width: 720px ), handheld and ( orientation : portrait ) {
+			/*@media screen and (max-width: 720px) {}*/
+			@media screen and (max-width: 720px), handheld and ( orientation: portrait) {
 				header, section, footer {
 					position: static;
 					float:none;
@@ -313,7 +376,7 @@
 					width: auto;
 					overflow-y: auto;
 				}
-			/*	#btnTop {
+				/*#btnTop {
 					position: fixed;
 					text-align:center;
 					text-decoration:none;
@@ -323,16 +386,19 @@
 					right: 0px;
 					visibility: visible;
 					z-index: 1;
-				}
-			*/
+				}*/
 			}
+			/*@media screen, print and (max-width: 480px) {}/*
+			/*@media screen, print and (max-width: 320px) {}*/
 		</style>
 
-<!-- ########################################################## -->
-<!-- Begin JS################################################## -->
-<!-- ########################################################## -->
+<!-- ######################################################## -->
+<!-- JS ##################################################### -->
+<!-- ######################################################## -->
 
-		<script type="text/javascript">
+		<!--script type="text/javascript" src="./js/common.js"></script-->
+		<script>
+			//common js here, rest of them inside page elements
 			//Clock
 			function updateClock() {
 				var d=new Date();
@@ -536,7 +602,7 @@
 
 		<!-- ########################################################## -->
 
-		<script type="text/javascript" src="//www.google.com/jsapi"></script>
+		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 		<script type="text/javascript">
 			/*!--Sample feedbox html
 				<div class="feeds">
@@ -634,12 +700,11 @@
 		</script>
 	</head>
 
-<!-- ########################################################## -->
-<!-- Begin Body################################################ -->
-<!-- ########################################################## -->
-
 	<body>
-		<!-- ########################################################## -->
+
+<!-- ######################################################## -->
+<!-- Header ################################################# -->
+<!-- ######################################################## -->
 
 		<header>
 			<div id="loginPortal">
@@ -727,73 +792,79 @@
 
 			<div class="navElements" id="fav">
 				<ul>
-					<li><a href="https://www.reddit.com" target="_blank">Reddit</a></li>
-					<li><a href="https://www.imgur.com" target="_blank">Imgur</a></li>
-					<li><a href="https://www.youtube.com" target="_blank">Youtube</a></li>
-					<li><a href="https://boards.4chan.org/g/" target="_blank">/g/</a></li>
+					<li><a href="http://www.qqtimer.net">qqtimer</a></li>
+					<li><a href="https://www.reddit.com">Reddit</a></li>
+					<li><a href="https://www.imgur.com">Imgur</a></li>
+					<li><a href="https://www.youtube.com">Youtube</a></li>
+					<li><a href="https://boards.4chan.org/g/">/g/</a></li>
 				</ul>
 			</div>
 
 			<div class="navElements" id="raspi">
 				<ul style="margin-bottom:0px;">
-					<li class="head"> <a href="http://rpi/" target="_blank">PiHome</a> </li>
-					<li> <a href="http://rpi/slate/" target="_blank">/slate</a> </li>
-					<li> <a href="http://rpi/files/" target="_blank">/files</a> </li>
-					<li> <a href="http://rpi/profile/" target="_blank">/profile</a> </li>
-				</ul>
-
-				<ul>
-					<li class="head"> <a href="https://desktop/" target="_blank">Desktop</a> </li>
-					<li> <a href="http://desktop/files/" target="_blank">/files</a> </li>
-					<li> <a href="https://desktop/torrent/" target="_blank">/torrents</a> </li>
+					<li class="head"> <a href="http://rpi.lo/">PiHome</a> </li>
+					<li class="head"> <a href="https://desktop.lo/">Desktop</a> </li>
+					<li class="head"> <a href="https://laptop.lo/">Laptop</a> </li>
 				</ul>
 			</div>
 
 			<div class="navElements" id="botnet">
 				<ul>
-					<li><a href="https://accounts.google.com/ServiceLogin?service=mail" target="_blank">Gmail</a></li>
-					<li><a href="https://keep.google.com/" target="_blank">Keep</a></li>
-					<li><a href="https://drive.google.com/" target="_blank">Drive</a></li>
-					<li><a href="https://facebook.com/" target="_blank">Facebook</a></li>
-					<li><a href="https://linkedin.com/" target="_blank">LinkedIn</a></li>
-					<li><a href="https://twitter.com/" target="_blank">Twitter</a></li>
-					<li><a href="https://github.com/" target="_blank">Github</a></li>
+					<li><a href="https://accounts.google.com/ServiceLogin?service=mail">Gmail</a></li>
+					<li><a href="https://keep.google.com/">Keep</a></li>
+					<li><a href="https://drive.google.com/">Drive</a></li>
+					<li><a href="https://facebook.com/">Facebook</a></li>
+					<li><a href="https://linkedin.com/">LinkedIn</a></li>
+					<li><a href="https://twitter.com/">Twitter</a></li>
+					<li><a href="https://github.com/">Github</a></li>
 				</ul>
 			</div>
 
 
 			<div class="navElements" id="commerce">
 				<ul>
-					<li><a href="http://www.ebay.in/" target="_blank">EBay</a></li>
-					<li><a href="http://www.amazon.in/" target="_blank">Amazon</a></li>
-					<li><a href="http://www.flipkart.com/" target="_blank">Flipkart</a></li>
-					<li><a href="http://www.myntra.com/" target="_blank">Myntra</a></li>
+					<li><a href="http://www.ebay.in/">EBay</a></li>
+					<li><a href="http://www.amazon.in/">Amazon</a></li>
+					<li><a href="http://www.flipkart.com/">Flipkart</a></li>
+					<li><a href="http://www.myntra.com/">Myntra</a></li>
 				</ul>
 			</div>
 
 			<div class="navElements" id="info">
 				<ul>
-					<li><a href="https://stackexchange.com/sites#/" target="_blank">StackExchange</a></li>
-					<li><a href="https://wiki.archlinux.org/" target="_blank">ArchWiki</a></li>
+					<li><a href="https://stackexchange.com/sites#/">StackExchange</a></li>
+					<li><a href="https://wiki.archlinux.org/">ArchWiki</a></li>
 					<li><a href="https://news.ycombinator.com/newest">HackerNews</a></li>
-					<li><a href="http://css-tricks.com/" target="_blank">CSS-Tricks</a></li>
+					<li><a href="http://css-tricks.com/">CSS-Tricks</a></li>
 				</ul>
 			</div>
 
 			<div class="navElements" id="torr">
 				<ul>
-					<li><a href="https://thepiratebay.se/" target="_blank">TPB</a></li>
-					<li><a href="http://torbox.net/" target="_blank">Torbox</a></li>
-					<li><a href="http://publichd.se/" target="_blank">PublicHD</a></li>
-					<li><a href="http://nyaa.se/" target="_blank">Nyaa</a></li>
+					<li><a href="https://thepiratebay.se/">TPB</a></li>
+					<li><a href="http://torbox.net/">Torbox</a></li>
+					<li><a href="http://publichd.se/">PublicHD</a></li>
+					<li><a href="http://nyaa.se/">Nyaa</a></li>
 				</ul>
 			</div>
 			<script type="text/javascript">toggle('navElements', 'botnet');</script>
 		</header>
 
-		<!--aside></aside-->
+<!-- ######################################################## -->
+<!-- Aside ################################################## -->
+<!-- ######################################################## -->
+
+		<!--aside>
+			<!sidebar stuff goes here>
+		</aside-->
+
+<!-- ######################################################## -->
+<!-- Section################################################# -->
+<!-- ######################################################## -->
+
 
 		<section>
+			<!--main content goes here -->
 			<div id="search">
 				<form method="get" action="https://encrypted.google.com/search" id="searchForm" onSubmit="fn_search();" >
 					<input type="text" autofocus id="searchText" name="q" placeholder=";g, ;ddg, ;yt, ;wiki, ;redd, ;imdb, ;flip, ;libg, ;tpb, ;tbox" maxlength="255"/>
@@ -801,22 +872,34 @@
 			</div>
 
 			<div id="feeds-wrapper">
+				<div class="row1">
 					<script> feed_init("https://open.live.bbc.co.uk/weather/feeds/en/1275004/3dayforecast.rss", 3, "weather");</script>
 					<script> feed_init("http://rt.com/rss/", 20, "rt");</script>
+				</div>
+
+				<div class="row2">
 					<script> feed_init("http://www.cnet.com/rss/all/", 20, "cnet");</script>
 					<script> feed_init("http://feeds.gawker.com/lifehacker/full", 20, "lifehacker");</script>
+				</div>
+
+				<div class="row3">
 					<script> feed_init("http://feeds.feedburner.com/hackaday/LgoM?format=xml", 20, "hackaday");</script>
 					<script> feed_init("http://rss.slashdot.org/Slashdot/slashdot", 20, "slashdot");</script>
+				</div>
 			</div>
 		</section>
 
-<!-- ########################################################## -->
+<!-- ######################################################## -->
+<!-- Footer ################################################# -->
+<!-- ######################################################## -->
 
-		<footer>
+		<footer class="clear full-width center">
+			<!--credits, copyright, and contact goes here -->
 			<p>&copy; Arpan Pal 2014</p>
 			<a href="https://github.com/arpanpal010" title="GitHub: arpanpal010"><img class="contacticon" src="./images/icons/iconmonstr-github-5-icon.svg" alt="github"></a>
 			<a href="https://in.linkedin.com/in/arpanpal010" title="LinkedIn: arpanpal010"><img class="contacticon" src="./images/icons/iconmonstr-linkedin-5-icon.svg" alt="linkedin"></a>
 			<a href="https://twitter.com/arpanpal010" title="Twitter: arpanpal010"><img class="contacticon" src="./images/icons/iconmonstr-twitter-5-icon.svg" alt="twitter"></a>
+
 			<!--div id="btnTop"><a href="#"><b style="font-size: 20px;">&#x21E7;</b><br><b>TOP</b></a></div-->
 		</footer>
 	</body>
