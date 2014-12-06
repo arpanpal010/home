@@ -11,7 +11,7 @@
 			<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
-		<title>HomePage.v2.3</title>
+		<title>HomePage.v2.4</title>
 
 <!-- ######################################################## -->
 <!-- CSS #################################################### -->
@@ -54,7 +54,7 @@
 				margin-top: 1em;
 			}
 
-			h1, h2, h3, h4, h5, h6 { margin: 0;}
+			h1, h2, h3, h4, h5, h6 { margin: 0.2em;}
 				h1 { font-size: 3.0em;}
 				h2 { font-size: 2.0em;}
 				h3 { font-size: 1.5em;}
@@ -201,7 +201,6 @@
 			.gfeeds {
 				background: #FFF;
 				margin-bottom: 1em;
-				margin-bottom: 1em;
 				margin-left: 0.4%;
 				margin-right: 0.4%;
 				border: 1px solid gray;
@@ -210,7 +209,7 @@
 				filter: alpha(opacity=60);*/
 				float: left;
 				width:32.2%;
-				height: 320px;
+				height: 360px;
 				overflow-y: scroll;
 			}
 				.gfeeds:hover{
@@ -234,6 +233,23 @@
 					.gfeeds ul li {
 						font-size: 1.4em;
 						padding: 0.5em;
+				}
+
+			.loadMore {
+				font-size: 1.7em;
+				color: #FFF;
+				cursor: pointer;
+				opacity: 0.30;
+				background: #000000;
+				padding: 0 0.4em;
+				border-radius: 0.5em;
+				filter: alpha(opacity=30); /* <IE8 compatibility*/
+				border: 1px solid white;
+			}
+				.loadMore:hover {
+					background: #FFF;
+					color: #000;
+					border: 1px solid gray;
 				}
 
 			.infoElements {
@@ -333,21 +349,24 @@
 				/*margin-right: 2em;
 				margin-left: 2em;*/
 				margin-top: 0.5em;
-				margin-bottom: 2em;
+				margin-bottom: 0em;
 				padding-left: 1em;
 				text-align: center;
 				width: 80%;
 				/*opacity: 0.60;
 				filter: alpha(opacity=60);*/ /* <IE8 compatibility*/
+				border: none;
+				border-radius: 0.2em;
 			}
 				#search input:focus {
+					border: none;
 					/*opacity: 0.60;
 					filter: alpha(opacity=60);*/ /* <IE8 compatibility*/
 				}
 
 			#feeds-wrapper {
-				margin-left: 5%;
-				margin-right: 5%;
+				margin-left: 2%;
+				margin-right: 2%;
 				width:auto;
 			}
 
@@ -370,6 +389,11 @@
 					position: static;
 					float:none;
 					width: auto;
+				}
+				#feeds-wrapper {
+					margin-left: 5%;
+					margin-right: 5%;
+					width:auto;
 				}
 				.gfeeds {
 					float: none;
@@ -439,7 +463,7 @@
 					document.body.style.color=ccodes[t][1];
 				}
 				//reload
-				var t=setTimeout(function(){updateBackground()}, 60000);
+				var t=setTimeout(function(){updateBackground();}, 60000);
 			}
 		</script>
 
@@ -602,7 +626,7 @@
 
 		<!-- ########################################################## -->
 
-		<script type="text/javascript" src="//www.google.com/jsapi"></script>
+		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 		<script type="text/javascript">
 			/*!--Sample feedbox html
 				<div class="feeds">
@@ -619,82 +643,99 @@
 			//initialize google feed api for displaying rss
 			google.load("feeds", "1");
 
-			function feed_init(furl, flen, fdiv) { //feed url, feed item length, div name
+			function feed_init(furl, flen, scriptId, title) { //feed url, feed item length, div name
 				var feed=new google.feeds.Feed(furl);
 				feed.setNumEntries(flen);
 				feed.setResultFormat(google.feeds.Feed.JSON_FORMAT);
 				feed.includeHistoricalEntries();
 
+				//echo
+				console.log("Fetched "+ flen + " newest items for id: " + scriptId + ", feed url: "+furl);
+
+
 				feed.load(function(result){
-						if ( !result.error ) {
-							//build the html
-							var container=document.getElementById("feeds-wrapper");
-							//clear feedbox if exists, or create it
-							if (document.getElementById(fdiv)) {
-								var feedBox=document.getElementById(fdiv);
+					if ( !result.error ) {
+					//build the html
+						//var container=document.getElementById("feeds-wrapper");
+						//var container=document.getElementById(document.currentScript.id.parentNode.id);
+						var container=document.getElementById(document.getElementById(scriptId).parentNode.id);
+
+						//clear feedbox if exists, or create it
+							//escaping the title to generate the feedbox id
+							fbid=result.feed.title.replace(/[^a-zA-Z0-9]/gi, "-").toLowerCase() + "_" + scriptId;
+							console.log("Loading feed: " + fbid);
+							var feedbox;
+							if (document.getElementById(fbid)) {
+								feedBox=document.getElementById(fbid);
 								while (feedBox.firstChild){
 									feedBox.removeChild(feedBox.firstChild);
 								}
 							}
 							else {
-								var feedBox=document.createElement("div");
-								feedBox.setAttribute("id", fdiv);
+								feedBox=document.createElement("div");
+								feedBox.setAttribute("id", fbid);
 								feedBox.setAttribute("class", "gfeeds");
+								container.appendChild(feedBox);
 							}
 
-							/*var refBtn=document.createElement("img");
-							refBtn.setAttribute("class", "refreshButton");
-							refBtn.setAttribute("alt", "Click to refresh");
-							refBtn.setAttribute("onclick", function(){feed_init(furl, flen, fdiv)});
-							refBtn.setAttribute("src", "./images/icons/iconmonstr-refresh-3-icon.svg");*/
-							//title
-							var ftitle=document.createElement("p");
-							ftitle.setAttribute("class", "title");
-							//link
-							var flink=document.createElement("a");
-							flink.setAttribute("href", result.feed.link);
-							flink.setAttribute("target", "_blank");
-							flink.appendChild(document.createTextNode(result.feed.title));
+						//title p
+						var ftitle=document.createElement("p");
+						ftitle.setAttribute("class", "title");
+						title=title || result.feed.title;
 
-							ftitle.appendChild(flink);
-							ftitle.appendChild(document.createTextNode(result.feed.description));
+						//link
+						var flink=document.createElement("a");
+						flink.setAttribute("href", result.feed.link);
+						flink.setAttribute("target", "_blank");
 
-							//entries ul
-							var feedul=document.createElement("ul");
+						flink.appendChild(document.createTextNode(title));
 
-							//if (flen == "" || flen > result.feed.entries.length ) { flen = result.feed.entries.length;}
+						ftitle.appendChild(flink);
+						ftitle.appendChild(document.createTextNode(result.feed.description.slice(0, 130)));
 
-							//entries li
-							for (var i=0; i<result.feed.entries.length; i++) {
-								var entry=result.feed.entries[i];
-								//make the html from the feed
-								var li=document.createElement("li");
-								//darken every odd li
-								if ( result.feed.entries.length > 5 && i % 2 == 0) {
-									li.style.backgroundColor="#EAEAEA";
-								}
-								//entry links
-								var elink=document.createElement("a");
-								elink.setAttribute("href", entry.link);
-								elink.setAttribute("target", "_blank");
-								elink.setAttribute("title", entry.contentSnippet);
-								elink.appendChild(document.createTextNode(entry.title));
+						//entries ul
+						var feedul=document.createElement("ul");
 
-								li.appendChild(elink);
-								feedul.appendChild(li);
+						//if (flen == "" || flen > result.feed.entries.length ) { flen = result.feed.entries.length;}
+
+						//entries li
+						for (var i=0; i<result.feed.entries.length; i++) {
+							var entry=result.feed.entries[i];
+							//make the html from the feed
+							var li=document.createElement("li");
+							//darken every odd li
+							if ( result.feed.entries.length > 5 && i % 2 === 0) {
+								li.style.backgroundColor="#EAEAEA";
 							}
-								//feedBox.appendChild(refBtn);
-							feedBox.appendChild(ftitle);
-							feedBox.appendChild(feedul);
+							//entry links
+							var elink=document.createElement("a");
+							elink.setAttribute("href", entry.link);
+							elink.setAttribute("target", "_blank");
+							elink.setAttribute("title", entry.contentSnippet);
+							elink.appendChild(document.createTextNode(entry.title));
 
-							container.appendChild(feedBox);
+							li.appendChild(elink);
+							feedul.appendChild(li);
+						}
+						feedBox.appendChild(ftitle);
+						feedBox.appendChild(feedul);
+
+						//load more button at bottom
+						if ( result.feed.entries.length > 5) {
+							var refBtn=document.createElement("a");
+							refBtn.setAttribute("class", "loadMore");
+							refBtn.setAttribute("title", "Click to load more entries");
+							//refBtn.setAttribute("href", "#" + fbid);
+							refBtn.setAttribute("onclick", "feed_init('" + furl +"', " + (flen + 10) + ", '" + scriptId + "');");
+							refBtn.appendChild(document.createTextNode("More"));
+						feedBox.appendChild(refBtn);
+						}
+						console.log("Finished rendering feed url: " + furl);
 					}
-					//	else { alert("Error with feed: "+furl);}
-					}
-				);
+					else { console.error("Error with feed: "+furl);}
+				});
 				//refresh every 5 mins
-				var rf=setTimeout(function(){feed_init(furl, flen, fdiv)},300000);
-
+				var rf=setTimeout(function(){feed_init(furl, flen, scriptId)},300000);
 			}
 			//google.setOnLoadCallback(feed_init);
 		</script>
@@ -767,6 +808,8 @@
 							<li>Added search help</li>
 							<li>Added more feeds</li>
 							<li>Added IMDB search</li>
+							<li>Added more button</li>
+							<li>Categorised feed to their own divs</li>
 							<!--li>Added GoToTop button</li-->
 						</ul>
 						<h3><u>todo</u></h3>
@@ -801,7 +844,7 @@
 			</div>
 
 			<div class="navElements" id="raspi">
-				<ul style="margin-bottom:0px;">
+				<ul>
 					<li class="head"> <a href="http://rpi.lo/">PiHome</a> </li>
 					<li class="head"> <a href="https://desktop.lo/">Desktop</a> </li>
 					<li class="head"> <a href="https://laptop.lo/">Laptop</a> </li>
@@ -833,7 +876,9 @@
 			<div class="navElements" id="info">
 				<ul>
 					<li><a href="https://stackexchange.com/sites#/">StackExchange</a></li>
+					<li><a href="http://forum.xda-developers.com/">XDA Forum</a></li>
 					<li><a href="https://wiki.archlinux.org/">ArchWiki</a></li>
+					<li><a href="http://distrowatch.com/">DistroWatch</a></li>
 					<li><a href="https://news.ycombinator.com/newest">HackerNews</a></li>
 					<li><a href="http://css-tricks.com/">CSS-Tricks</a></li>
 				</ul>
@@ -843,7 +888,7 @@
 				<ul>
 					<li><a href="https://thepiratebay.se/">TPB</a></li>
 					<li><a href="http://torbox.net/">Torbox</a></li>
-					<li><a href="http://publichd.se/">PublicHD</a></li>
+					<li><a href="https://publichd.to/">PublicHD</a></li>
 					<li><a href="http://nyaa.se/">Nyaa</a></li>
 				</ul>
 			</div>
@@ -867,24 +912,38 @@
 			<!--main content goes here -->
 			<div id="search">
 				<form method="get" action="https://encrypted.google.com/search" id="searchForm" onSubmit="fn_search();" >
-					<input type="text" autofocus id="searchText" name="q" placeholder=";g, ;ddg, ;yt, ;wiki, ;redd, ;imdb, ;flip, ;libg, ;tpb, ;tbox" maxlength="255"/>
+					<input type="text" autofocus="true" id="searchText" name="q" placeholder=";g, ;ddg, ;yt, ;wiki, ;redd, ;imdb, ;flip, ;libg, ;tpb, ;tbox" maxlength="255"/>
 				</form>
 			</div>
 
 			<div id="feeds-wrapper">
-				<div class="row1">
-					<script> feed_init("https://open.live.bbc.co.uk/weather/feeds/en/1275004/3dayforecast.rss", 3, "weather");</script>
-					<script> feed_init("http://rt.com/rss/", 20, "rt");</script>
+				<div id="NewsInfo" style="display: block; overflow: hidden; margin-top: 1em; margin-bottom: 1em;">
+				<h2>News</h2>
+					<script id="weather">
+						 feed_init("https://open.live.bbc.co.uk/weather/feeds/en/1275004/3dayforecast.rss", 3, "weather");
+					</script>
+					<script id="rt">
+						feed_init("http://rt.com/rss/", 10, "rt");
+					</script>
+					<script id="theintercept">
+						feed_init("https://firstlook.org/theintercept/feed/?rss", 10, "theintercept");
+					</script>
 				</div>
 
-				<div class="row2">
-					<script> feed_init("http://www.cnet.com/rss/all/", 20, "cnet");</script>
-					<script> feed_init("http://feeds.gawker.com/lifehacker/full", 20, "lifehacker");</script>
-				</div>
-
-				<div class="row3">
-					<script> feed_init("http://feeds.feedburner.com/hackaday/LgoM?format=xml", 20, "hackaday");</script>
-					<script> feed_init("http://rss.slashdot.org/Slashdot/slashdot", 20, "slashdot");</script>
+				<div id="tech" style="display: block; overflow: hidden; margin-top: 1em; margin-bottom: 1em;">
+				<h2>Tech</h2>
+					<script id="lifehacker">
+						feed_init("http://feeds.gawker.com/lifehacker/full", 10, "lifehacker");
+					</script>
+					<script id="cnet">
+						 feed_init("http://www.cnet.com/rss/all/", 10, "cnet");
+					</script>
+					<script id="hackaday">
+						 feed_init("http://feeds.feedburner.com/hackaday/LgoM?format=xml", 10, "hackaday");
+					</script>
+					<script id="slashdot">
+						 feed_init("http://rss.slashdot.org/Slashdot/slashdot", 10, "slashdot");
+					</script>
 				</div>
 			</div>
 		</section>
